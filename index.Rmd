@@ -1,14 +1,83 @@
 ---
-title: "BIO381_2018"
-author: "BMV"
-date: "January 17, 2018"
+title: "BIO381"
+date: "Spring 2018"
 output: 
   prettydoc::html_pretty:
     theme: leonids
     highlight: github
 ---
+<p align="center">
 
-**Brittany Verrico**
+#### Brittany Verrico
+Graduate student
+
+Email: bverrico@uvm.edu 
+
+<img src="IMG_3205.jpg" width="200" height="200" />
 
 
-website woo hoo!
+## Useful links:
+* [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+* [Course Webpage](https://gotellilab.github.io/Bio381/) 
+
+## Table of contents of Homework Assignments    
+* [Homework 1: ](#id-section1)
+* [Homework 2: ](#id-section2)
+* [Homework 3: ](#id-section3)
+* [Homework 4: ](#id-section4)
+* [Homework 5: ](#id-section5)
+* [Homework 6: ](#id-section6) 
+* [Homework 7: ](#id-section7)
+* [Homework 8: ](#id-section8)
+* [Homework 9: ](#id-section9)   
+* [Homework 10: ](#id-section10)
+* [Homework 11: ](#id-section11)
+
+------
+<div id='id-section1'/>
+### Week 1:
+
+
+------
+<div id='id-section2'/>
+### Week 2:    
+
+------
+<div id='id-section3'/>
+### Week 3: 
+
+
+------
+<div id='id-section4'/>
+### Week 4:    
+
+------
+<div id='id-section5'/>   
+### Week 5: 
+   
+ 
+------
+<div id='id-section6'/>   
+### Week 6: 
+
+------
+<div id='id-section7'/>
+### Week 7: 
+
+
+------
+<div id='id-section8'/>
+### Week 8:  
+
+------
+<div id='id-section9'/>
+### Week 9: 
+
+------
+<div id='id-section10'/>
+### Week 10:    
+
+
+------
+<div id='id-section11'/>
+### Week 11: 
