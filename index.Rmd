@@ -9,8 +9,6 @@ output:
 <p align="center">
 
 #### Brittany Verrico
-Graduate student
-
 Email: bverrico@uvm.edu 
 
 <img src="IMG_3205.jpg" width="200" height="200" />
