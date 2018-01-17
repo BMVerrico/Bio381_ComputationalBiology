@@ -2,7 +2,10 @@
 title: "BIO381_2018"
 author: "BMV"
 date: "January 17, 2018"
-output: html_document
+output: 
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
 ---
 
 **Brittany Verrico**
