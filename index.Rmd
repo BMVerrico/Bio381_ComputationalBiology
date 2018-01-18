@@ -17,9 +17,7 @@ Email: bverrico@uvm.edu
 * [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 * [Course Webpage](https://gotellilab.github.io/Bio381/) 
 * [Github website templates](https://github.com/jekyll/jekyll/wiki/Themes) 
-
-## Class notes
-* [Week 1 Notes]("/Lecture1_GitHub.txt")
+* [Lab Notebook](https://github.com/BMVerrico/Bio381_ComputationalBiology/blob/master/LabNotebook.Rmd)
 
 ## Table of contents of Homework Assignments    
 * [Homework 1: ](#id-section1)
