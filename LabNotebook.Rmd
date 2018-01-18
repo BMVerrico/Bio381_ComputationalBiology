@@ -1,0 +1,75 @@
+---
+output: html_document
+---
+# 2018 BIO381 Notebook
+
+### Author: BMVerrico
+### Affiliation: Plant Biology Department, University of Vermont   
+### Contact: bverrico@uvm.edu
+
+### Date started: 2018-01-16    
+### Date end (last modified):   
+
+
+**Introduction:**    
+Lecture and lab notes for BIOL381 Computational Biology
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.  
+
+### Notes (day of lecture/lab)       
+* [Page 1: 2018-01-16](#id-section1). 
+* [Page 2: 2018-01-17](#id-section2).
+* [Page 3: 2018-01-18](#id-section3). 
+* [Page 4: 2018-01-23](#id-section4). 
+* [Page 5: 2018-01-24](#id-section5). 
+* [Page 6: 2018-01-25](#id-section6) 
+* [Page 7: 2018-01-30](#id-section7). 
+* [Page 8: 2018-01-31](#id-section8). 
+* [Page 9: 2018-02-01](#id-section9).
+
+------
+
+<div id='id-section1'/>
+### Page 1: 2018-01-16. 
+
+------
+
+<div id='id-section2'/>  
+### Page 2: 2018-01-17
+
+------
+
+<div id='id-section3'/>
+### Page 3: 2018-01-18
+
+------
+
+<div id='id-section4'/>
+### Page 4: 2018-01-23
+
+------
+
+<div id='id-section5'/>
+### Page 5: 2018-01-24
+
+------
+
+<div id='id-section6'/>
+### Page 6: 2018-01-25
+
+------
+
+<div id='id-section7'/>
+### Page 7 2018-01-30
+
+------
+
+<div id='id-section8'/>
+### Page 8 2018-01-31
+
+------
+
+<div id='id-section9'/>
+### Page 9 2018-02-01
+
+------

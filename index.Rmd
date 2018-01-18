@@ -13,11 +13,13 @@ Email: bverrico@uvm.edu
 
 <img src="IMG_3205.jpg" width="200" height="200" />
 
-
 ## Useful links:
 * [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 * [Course Webpage](https://gotellilab.github.io/Bio381/) 
 * [Github website templates](https://github.com/jekyll/jekyll/wiki/Themes) 
+
+## Class notes
+* [Week 1 Notes]("/Lecture1_GitHub.txt")
 
 ## Table of contents of Homework Assignments    
 * [Homework 1: ](#id-section1)

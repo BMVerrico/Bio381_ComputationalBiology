@@ -1,0 +1,67 @@
+biol 381 computational biology 
+
+lecture 1: january 16, 2018
+
+1_ how to think on paper
+2_ how to use modern computational tools for science 
+3_ foundational methods in computer programming (also can be applied to perl, java, C++)
+4_ experimental design
+5_ publication quality graphics in R
+6_ students teach R package
+7_ probability distributions to simulate data
+
+
+GitHub
+_ point of it is version control = systematically organize different versions of document
+_ git = version control software
+_ GitHub = free remove public website where project is stored (hosts git software)
+_ good with multiple authors on a document
+_ cloning: create a local copy of your repository, which is made up of files (any document)
+and what git creates to keep track of your files that you are working on
+_ $6/month -- private repository 
+_ commit = set of recorded changes to the repostory (snapshot of data and datafiles)
+_ commit = to create a commit and description of it
+
+####
+Example:
+
+---------> TIME
+A A'
+B B
+C delete C
+* D
+  ~
+  
+* COMMIT WITH JUST ABC
+~ COMMIT WITH A' B delete C and creation of D
+(each time something is changed, add a new commit (with a unique id) with brief description
+
+-o-o-o-o-o master branch of commits
+		\ (fork)
+		o-o-o-o-o (last o= head of branch)
+####
+
+_ git keeps track of only the changes and then reconstructs previous versions of the files
+_ if a mistake is made, then you return the system back to the previous commit
+_ can create fork and then go on another path
+
+_ do work. make commit. push changes to GitHub, which updates repository online
+_ pull latest version of repository from GitHub
+_ GitHub desktop has synchronize which pushes and pulls, also updates webpage 
+_ ng only looks at webpage not repository 
+_ index page is the main core page for the webpage, can link off of that though
+_ no one can change webpage unless listed on GitHub
+_ each repo can have it's own webpage/portfolio
+
+_ no uncommitted changes means the local version and github version are synched and up to date
+_ ng hits sync just to make sure
+
+
+_ you are always working on the local respo. 
+_ commit to master is local, it does not sync to online
+_ sync is needed to push to GitHub site.
+
+_ GitHub only cares about files. not the folders/directory. the directory is needed to 
+locate the file, but that is all it cares about.
+_ if you have a directory without a file, then it will not be recognized on GitHub
+_ if there are files that you do not want on GitHub, do a GitHub ignore directory
