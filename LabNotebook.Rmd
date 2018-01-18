@@ -114,6 +114,110 @@ locate the file, but that is all.
 <div id='id-section3'/>
 ## Page 3: 2018-01-18
 
+#### General good practices 
+* Touch type: should be around 60-70words/minute
+  * BMV get yo' stuff together
+  
+* Notebook: get a good one! 
+  * Thinking on paper = key!
+  
+* Buy real books.
+  
+#### Scientific method
+  * inductive method: obs- hypothesis- predictions-back to obs
+    * if predictions are not met, make a new hypothesis
+    * change until hypothesis encompasses original observations and updated ones
+  * hypothetic deductive method (hopper's method): obs- many hypotheses (h1, h2,h3) that may account for the original observations- many predictions (p1,p2,p3)
+    * the predictions and hypotheses should be as distinct as possible
+    * some operational way to falsify hypothesis
+    * ideally we have one hypothesis that can withstand repeated testing with evidence to support
+  * statistical null hypothesis (Ho): sampling is different than null (0) 
+    * p < 0.05.. probability that the data we observed given the null hypothesis (which is often noise and/or sampling error)
+    * p(data|Ho)
+    
+#### Alternative to hypothesis testing
+  * exploratory data analysis: see what the data look like
+    * summaries, plots, figures
+    * problem: we are freaking good at finding patterns in the data but they do not always exist!
+    * pretty prevalent in big data sets (data science)
+  * Parameter estimation and bayesian analysis (estimating the coefs for the models rather than testing hypotheses)
+    
+#### Tools to help with all of this
+**1. Cause and effect diagrams**
+
+```{}
+
+A B : null hypothesis (no relationship)
+A -> B : alt
+B -> A : alt
+B -> <- A : alt
+
+Look at correlation of A and B and might see a positive linear pattern, but we cannot distinguish between the three possibilities. BECAUSE CORRELATION IS NOT ENOUGH. Need experimental data to distinguish. That is, manipulate variable one of the variables and control the other. 
+
+#### To figure out if both A and B are acting on each other, use press and pulse experiments. 
+
+* press- change variable and hold it constant
+* pulse- change variable and then let it change
+
+#### Could have a co-variate affecting A and B. 
+Co->A->B (indirect chain) but could have Co ->B directly
+Co->A but not B
+Co->A and Co->B but A and B not related.
+
+The above are mechanisms. We look at patterns in the data but we are trying to get back to the mechanism, rather than just observing the pattern. 
+```
+
+**2. Structural equation model and path analysis**
+  * Examples: keystone, variable, food-web (bottom up) models
+  * Do not just make one model and then use the probs on the arrows to say x,y,z. Instead, build several models and compare them. 
+  
+**Group literature together into hypotheses that they are testing...this seems like it would be very difficult to do!**
+
+**3. The early graph**
+  * Sketch the results if your expt/observation beforehand!
+    * Deal with the problem right now rather than after a Summer of collections.
+    
+```{}
+         |
+         |
+Response |   (insert bars here)
+         |
+          - - - - - - - - -   
+            control   trt.
+
+could have control and treatment equal (p > 0.005)
+could have control higher than treatment (p < 0.005)
+could have control less than treatment ( p < 0.005)
+
+INTREPTATION AND MECHANISM! 
+
+so, could say adding x to treatment is going to lower something. but that is just restating the hypothesis. what is the mechanism. 
+
+Experimental manipulation should alter one and only 1 thing at a time. 
+
+Control is not always a control, it could simply be unmanipulated.
+if heating the treatment, should have the same set up just not turned on to call the other group a control
+
+```
+
+**4. The more interesting null hypothesis**
+  * There may be sampling effects/ noise inherently in the system. 
+  * Let's say you collect baseline data and have a null hypothesis of a postivie relationship. Your collected data from your experiment do not seem to have a pattern. This does not necessarily mean that there isn't a relationship, but that the relationship is just different and may be more interesting. 
+  * [NG example](http://advances.sciencemag.org/content/advances/2/10/e1600842.full.pdf)
+  
+**5. "Dipswitch test"/ look up test**
+  * Turn things on or off in the circut
+  *Take results from several different experiments and combine into a single table. 
+    * Each col is a different experiment
+    * Each row is the results 
+    * Look at all the combinations and find an interpreation of the rows 
+      * Ideally there are 1 or a few rows that support the hypothesis
+
+**6. Logic tree**
+  * Series of boxes that might represent particular experiments or tests that were carried out. They represent an outcome of that expt. Simplest: yes or no.
+  * Circles represent the conclusion or the stopping point of the tree. 
+  * Dipswitch test can be formally mapped like this
+  * Diagram/tree can help with flow of manuscript
 ------
 
 <div id='id-section4'/>

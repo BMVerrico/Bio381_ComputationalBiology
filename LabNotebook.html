@@ -168,7 +168,7 @@ Lecture and lab notes for BIOL381 Computational Biology</p>
 <li>students teach R package</li>
 <li>probability distributions to simulate data</li>
 </ol>
-<p>GitHub</p>
+<p><strong>GitHub</strong></p>
 <ul>
 <li>point of it is version control = systematically organize different versions of document</li>
 <li>git = version control software</li>
@@ -211,7 +211,7 @@ C delete C
 <li>you are always working on the local respo.</li>
 <li>commit to master is local, it does not sync to online</li>
 <li><p>sync is needed to push to GitHub site.</p></li>
-<li>GitHub only cares about files. not the folders/directory. the directory is needed to locate the file, but that is all it cares about.</li>
+<li>GitHub only cares about files. not the folders/directory. the directory is needed to locate the file, but that is all.</li>
 <li>if you have a directory without a file, then it will not be recognized on GitHub</li>
 <li><p>if there are files that you do not want on GitHub, do a GitHub ignore directory</p></li>
 </ul>
@@ -220,13 +220,116 @@ C delete C
 </div>
 <div id="page-2-2018-01-17" class="section level2">
 <h2>Page 2: 2018-01-17</h2>
+<ul>
+<li>RSTUDIO PROJECT IS USEFUL BECAUSE YOU CAN HAVE MANY FILES WITHIN THE PROJECT AND CALL UPON DIFFERENT OBJECTS WITHOUT HAVING TO RUN ALL OF THE CODE.</li>
+<li>To make a webpage, need an “index” file (saved index.rmd)</li>
+<li>To make a fancy webpage</li>
+<li>make a repo called BMVerrico.github.io</li>
+<li>download template (jekyll)</li>
+<li>move to repo</li>
+<li>commit, sync, etc. make changes.</li>
+<li>read the README file!</li>
+</ul>
 <hr />
 <div id="id-section3"></div>
 </div>
 <div id="page-3-2018-01-18" class="section level2">
 <h2>Page 3: 2018-01-18</h2>
+<div id="general-good-practices" class="section level4">
+<h4>General good practices</h4>
+<ul>
+<li>Touch type: should be around 60-70words/minute</li>
+<li><p>BMV get yo’ stuff together</p></li>
+<li>Notebook: get a good one!</li>
+<li><p>Thinking on paper = key!</p></li>
+<li><p>Buy real books.</p></li>
+</ul>
+</div>
+<div id="scientific-method" class="section level4">
+<h4>Scientific method</h4>
+<ul>
+<li>inductive method: obs- hypothesis- predictions-back to obs
+<ul>
+<li>if predictions are not met, make a new hypothesis</li>
+<li>change until hypothesis encompasses original observations and updated ones</li>
+</ul></li>
+<li>hypothetic deductive method (hopper’s method): obs- many hypotheses (h1, h2,h3) that may account for the original observations- many predictions (p1,p2,p3)
+<ul>
+<li>the predictions and hypotheses should be as distinct as possible</li>
+<li>some operational way to falsify hypothesis</li>
+<li>ideally we have one hypothesis that can withstand repeated testing with evidence to support</li>
+</ul></li>
+<li>statistical null hypothesis (Ho): sampling is different than null (0)
+<ul>
+<li>p &lt; 0.05.. probability that the data we observed given the null hypothesis (which is often noise and/or sampling error)</li>
+<li>p(data|Ho)</li>
+</ul></li>
+</ul>
+</div>
+<div id="alternative-to-hypothesis-testing" class="section level4">
+<h4>Alternative to hypothesis testing</h4>
+<ul>
+<li>exploratory data analysis: see what the data look like
+<ul>
+<li>summaries, plots, figures</li>
+<li>problem: we are freaking good at finding patterns in the data but they do not always exist!</li>
+<li>pretty prevalent in big data sets (data science)</li>
+</ul></li>
+<li>Parameter estimation and bayesian analysis (estimating the coefs for the models rather than testing hypotheses)</li>
+</ul>
+</div>
+<div id="tools-to-help-with-all-of-this" class="section level4">
+<h4>Tools to help with all of this</h4>
+<p><strong>1. Cause and effect diagrams</strong></p>
+<pre><code>
+A B : null hypothesis (no relationship)
+A -&gt; B : alt
+B -&gt; A : alt
+B -&gt; &lt;- A : alt
+
+Look at correlation of A and B and might see a positive linear pattern, but we cannot distinguish between the three possibilities. BECAUSE CORRELATION IS NOT ENOUGH. Need experimental data to distinguish. That is, manipulate variable one of the variables and control the other. 
+
+#### To figure out if both A and B are acting on each other, use press and pulse experiments. 
+
+* press- change variable and hold it constant
+* pulse- change variable and then let it change
+
+#### Could have a co-variate affecting A and B. 
+Co-&gt;A-&gt;B (indirect chain) but could have Co -&gt;B directly
+Co-&gt;A but not B
+Co-&gt;A and Co-&gt;B but A and B not related.
+
+The above are mechanisms. We look at patterns in the data but we are trying to get back to the mechanism, rather than just observing the pattern. </code></pre>
+<p><strong>2. Structural equation model and path analysis</strong> * Examples: keystone, variable, food-web (bottom up) models * Do not just make one model and then use the probs on the arrows to say x,y,z. Instead, build several models and compare them.</p>
+<p><strong>Group literature together into hypotheses that they are testing…this seems like it would be very difficult to do!</strong></p>
+<p><strong>3. The early graph</strong> * Sketch the results if your expt/observation beforehand! * Deal with the problem right now rather than after a Summer of collections.</p>
+<pre><code>         |
+         |
+Response |   (insert bars here)
+         |
+          - - - - - - - - -   
+            control   trt.
+
+could have control and treatment equal (p &gt; 0.005)
+could have control higher than treatment (p &lt; 0.005)
+could have control less than treatment ( p &lt; 0.005)
+
+INTREPTATION AND MECHANISM! 
+
+so, could say adding x to treatment is going to lower something. but that is just restating the hypothesis. what is the mechanism. 
+
+Experimental manipulation should alter one and only 1 thing at a time. 
+
+Control is not always a control, it could simply be unmanipulated.
+if heating the treatment, should have the same set up just not turned on to call the other group a control
+</code></pre>
+<p><strong>4. The more interesting null hypothesis</strong> * There may be sampling effects/ noise inherently in the system. * Let’s say you collect baseline data and have a null hypothesis of a postivie relationship. Your collected data from your experiment do not seem to have a pattern. This does not necessarily mean that there isn’t a relationship, but that the relationship is just different and may be more interesting. * <a href="http://advances.sciencemag.org/content/advances/2/10/e1600842.full.pdf">NG example</a></p>
+<p><strong>5. “Dipswitch test”/ look up test</strong> * Turn things on or off in the circut <em>Take results from several different experiments and combine into a single table. </em> Each col is a different experiment * Each row is the results * Look at all the combinations and find an interpreation of the rows * Ideally there are 1 or a few rows that support the hypothesis</p>
+<pre><code>
+kable(nrow=4, ncol=4, data=NA)</code></pre>
 <hr />
 <div id="id-section4"></div>
+</div>
 </div>
 <div id="page-4-2018-01-23" class="section level2">
 <h2>Page 4: 2018-01-23</h2>
