@@ -6,12 +6,14 @@ output:
     theme: leonids
     highlight: github
 ---
-<p align="center">
+<img src="IMG_0782.jpg" width="350" height="200" /> <img src="IMG_6668.jpg" width="350" height="100" />
 
 #### Brittany Verrico
-Email: bverrico@uvm.edu 
 
-<img src="IMG_3205.jpg" width="200" height="200" />
+* Affiliation: Plant Biology Department, University of Vermont 
+* Email: bverrico@uvm.edu 
+
+      <img src="dnarep.jpg" width="200" height="150" />
 
 ## Useful links:
 * [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)

@@ -159,6 +159,62 @@ Lecture and lab notes for BIOL381 Computational Biology</p>
 </div>
 <div id="page-1-2018-01-16." class="section level2">
 <h2>Page 1: 2018-01-16.</h2>
+<ol style="list-style-type: decimal">
+<li>how to think on paper</li>
+<li>how to use modern computational tools for science</li>
+<li>foundational methods in computer programming (also can be applied to perl, java, C++)</li>
+<li>experimental design</li>
+<li>publication quality graphics in R</li>
+<li>students teach R package</li>
+<li>probability distributions to simulate data</li>
+</ol>
+<p>GitHub</p>
+<ul>
+<li>point of it is version control = systematically organize different versions of document</li>
+<li>git = version control software</li>
+<li>GitHub = free remove public website where project is stored (hosts git software)</li>
+<li>good with multiple authors on a document</li>
+<li>cloning: create a local copy of your repository, which is made up of files (any document) and what git creates to keep track of your files that you are working on</li>
+<li>$6/month – private repository</li>
+<li>commit = set of recorded changes to the repostory (snapshot of data and datafiles)</li>
+<li>commit = to create a commit and description of it</li>
+</ul>
+<pre><code>Example:
+
+---------&gt; TIME
+A A'
+B B
+C delete C
+* D
+  ~
+  
+* COMMIT WITH JUST ABC
+~ COMMIT WITH A' B delete C and creation of D
+(each time something is changed, add a new commit (with a unique id) with brief description
+
+-o-o-o-o-o master branch of commits
+        \ (fork)
+        o-o-o-o-o (last o= head of branch)</code></pre>
+<ul>
+<li>git keeps track of only the changes and then reconstructs previous versions of the files</li>
+<li>if a mistake is made, then you return the system back to the previous commit</li>
+<li><p>can create fork and then go on another path</p></li>
+<li>do work. make commit. push changes to GitHub, which updates repository online</li>
+<li>pull latest version of repository from GitHub</li>
+<li>GitHub desktop has synchronize which pushes and pulls, also updates webpage</li>
+<li>ng only looks at webpage not repository</li>
+<li>index page is the main core page for the webpage, can link off of that though</li>
+<li>no one can change webpage unless listed on GitHub</li>
+<li><p>each repo can have it’s own webpage/portfolio</p></li>
+<li>no uncommitted changes means the local version and github version are synched and up to date</li>
+<li><p>ng hits sync just to make sure</p></li>
+<li>you are always working on the local respo.</li>
+<li>commit to master is local, it does not sync to online</li>
+<li><p>sync is needed to push to GitHub site.</p></li>
+<li>GitHub only cares about files. not the folders/directory. the directory is needed to locate the file, but that is all it cares about.</li>
+<li>if you have a directory without a file, then it will not be recognized on GitHub</li>
+<li><p>if there are files that you do not want on GitHub, do a GitHub ignore directory</p></li>
+</ul>
 <hr />
 <div id="id-section2"></div>
 </div>

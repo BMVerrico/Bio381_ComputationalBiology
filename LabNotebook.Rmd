@@ -32,10 +32,82 @@ Lecture and lab notes for BIOL381 Computational Biology
 <div id='id-section1'/>
 ## Page 1: 2018-01-16. 
 
+1. how to think on paper
+2. how to use modern computational tools for science 
+3. foundational methods in computer programming (also can be applied to perl, java, C++)
+4. experimental design
+5. publication quality graphics in R
+6. students teach R package
+7. probability distributions to simulate data
+
+**GitHub**
+
+* point of it is version control = systematically organize different versions of document
+* git = version control software
+* GitHub = free remove public website where project is stored (hosts git software)
+* good with multiple authors on a document
+* cloning: create a local copy of your repository, which is made up of files (any document)
+and what git creates to keep track of your files that you are working on
+* $6/month -- private repository 
+* commit = set of recorded changes to the repostory (snapshot of data and datafiles)
+* commit = to create a commit and description of it
+
+```{}
+Example:
+
+---------> TIME
+A A'
+B B
+C delete C
+* D
+  ~
+  
+* COMMIT WITH JUST ABC
+~ COMMIT WITH A' B delete C and creation of D
+(each time something is changed, add a new commit (with a unique id) with brief description
+
+-o-o-o-o-o master branch of commits
+		\ (fork)
+		o-o-o-o-o (last o= head of branch)
+```
+
+* git keeps track of only the changes and then reconstructs previous versions of the files
+* if a mistake is made, then you return the system back to the previous commit
+* can create fork and then go on another path
+
+* do work. make commit. push changes to GitHub, which updates repository online
+* pull latest version of repository from GitHub
+* GitHub desktop has synchronize which pushes and pulls, also updates webpage 
+* ng only looks at webpage not repository 
+* index page is the main core page for the webpage, can link off of that though
+* no one can change webpage unless listed on GitHub
+* each repo can have it's own webpage/portfolio
+
+* no uncommitted changes means the local version and github version are synched and up to date
+* ng hits sync just to make sure
+
+* you are always working on the local respo. 
+* commit to master is local, it does not sync to online
+* sync is needed to push to GitHub site.
+
+* GitHub only cares about files. not the folders/directory. the directory is needed to 
+locate the file, but that is all.
+* if you have a directory without a file, then it will not be recognized on GitHub
+* if there are files that you do not want on GitHub, do a GitHub ignore directory
+
 ------
 
 <div id='id-section2'/>  
 ## Page 2: 2018-01-17
+
+* RSTUDIO PROJECT IS USEFUL BECAUSE YOU CAN HAVE MANY FILES WITHIN THE PROJECT AND CALL UPON DIFFERENT OBJECTS WITHOUT HAVING TO RUN ALL OF THE CODE. 
+* To make a webpage, need an "index" file (saved index.rmd)
+* To make a fancy webpage
+  + make a repo called BMVerrico.github.io
+  + download template (jekyll)
+  + move to repo
+  + commit, sync, etc. make changes. 
+  + read the README file!
 
 ------
 
