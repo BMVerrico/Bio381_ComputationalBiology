@@ -47,6 +47,7 @@ output:
 ### Week 2:    
 
 [Path analyses](pathAnalysis1.html)
+
 ------
 <div id='id-section3'/>
 ### Week 3: 
