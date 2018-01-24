@@ -38,11 +38,15 @@ output:
 <div id='id-section1'/>
 ### Week 1:
 
+[Webpage]([https://bmverrico.github.io/Bio381_ComputationalBiology/#id-section1)
+
+[GitHub]([https://github.com/BMVerrico/)
 
 ------
 <div id='id-section2'/>
 ### Week 2:    
 
+[Path analyses](pathAnalysis1.html)
 ------
 <div id='id-section3'/>
 ### Week 3: 

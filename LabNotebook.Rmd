@@ -223,6 +223,26 @@ if heating the treatment, should have the same set up just not turned on to call
 <div id='id-section4'/>
 ## Page 4: 2018-01-23
 
+* Plain text: nothing but printable text chars. that are readable by humans and machines.
+  * .txt, .md (markdown format), .rmd ( R markdown format), .tex (LaTeX format)
+  
+* Typora: use "Command /" to toggle back and forth of how you want the text to appear and how it is "coded". Plain text view to rendered view.
+  * Can go back and forth between R and Typora.
+  
+* Shift return for paragraph break in Slack!
+* Rmarkdown uses Latex to show math (use doll hair sign)
+
+* LaTeX editor called Overleaf is worth using when writing a manuscript and multiple people working on the document. 
+  * "\title (text)"
+  * Can add %% that will not render something (text, link), but useful when editing.
+  * Can have different colors/author to track changes.
+  
+* Rmarkdown: YAML (text between the --- can be changed and it will not show)  
+  * put "r" in the fence to show that it is R code, rather than markdown text.
+  * do not need to add in a name to the text. can help identify what the code is, but not required to knit
+  * control shift and k to knit
+  
+
 ------
 
 <div id='id-section5'/>
