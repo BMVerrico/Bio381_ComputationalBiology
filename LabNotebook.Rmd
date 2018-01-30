@@ -290,8 +290,8 @@ Chunk options!
 * Need to have all images saved in the directory of the .rmd.
 
 ```{}
- .R      typora
-  |       |
+         typora
+           |
 .rmd -> (.md) - can make .html, .pdf (based on .md), .pdf (beamer slides)
 
 .Rnw (sweave) --------- .pdf (LaTeX)
@@ -306,6 +306,39 @@ purl("FirstHTML.Rmd")
 
 To change old R script code to an HTML or PDF without the .rmd file, use the notebook button. 
 
+```{}
+ .R --------------------(with notebook)    
+  |  (with purl)            |     |
+.rmd -> (.md) - can make .html, .pdf (based on .md), .pdf (beamer slides)
+```
+
+
+**To R scripts we go!**
+
+* History and the up arrow in the console shows previous code.
+* Try to break the = habit and use <- instead...you can do this BMV!
+```{}
+control l: clear the consol
+control enter: run line(s) of code
+control shift enter: run everything in the script
+```
+
+### Data types
+
+Homogeneous: same type of data, hetero=opposite
+
+I need to learn how to make tables!
+
+Dimensions  Homogeneous  Heterogeneous
+1           Atomic vector   List
+2           Matrix        Data frame (kind of list)
+n           Array
+
+* Character string "i" (green font)
+* Integers (numeric)
+* Doubles (doubles precision) (numeric)
+* logical (TRUE T, FALSE F) (bright pink font)
+* factor (set of character strings, groups, used in statistical models)
 ------
 
 <div id='id-section8'/>
