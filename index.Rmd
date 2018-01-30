@@ -30,7 +30,7 @@ output:
 * [Homework 6: ](#id-section6) 
 * [Homework 7: ](#id-section7)
 * [Homework 8: ](#id-section8)
-* [Homework 9: ](#id-section9)   
+* [Homework 9: ](#id-section9)
 * [Homework 10: ](#id-section10)
 * [Homework 11: ](#id-section11)
 

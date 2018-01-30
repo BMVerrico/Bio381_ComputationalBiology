@@ -1,5 +1,7 @@
 ---
-output: html_document
+output: 
+  html_document: 
+    number_sections: yes
 ---
 # 2018 BIO381 Notebook
 
@@ -12,7 +14,7 @@ output: html_document
 
 
 **Introduction:**    
-Lecture and lab notes for BIOL381 Computational Biology
+Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or descriptive, but little tid bits to help in the future.
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.  
 
@@ -242,21 +244,67 @@ if heating the treatment, should have the same set up just not turned on to call
   * do not need to add in a name to the text. can help identify what the code is, but not required to knit
   * control shift and k to knit
   
-
 ------
 
 <div id='id-section5'/>
 ## Page 5: 2018-01-24
+
+Working on path analyses. Used mermaid flow charts and relied heavily on the cheat sheets to do this.
 
 ------
 
 <div id='id-section6'/>
 ## Page 6: 2018-01-25
 
+* See FirstHTML.Rmd. Using three languages here (R, markdown, and LaTeX)
+
+* WHEN RENDERING TO HTML THE LATEX COMMANDS ARE IGNORED. NEED TO RENDER TO PDF!
+
+* PDF rendering only comes out one way--latex way. 
+
+* The HTML version can have different themes, colors, fonts.
+
+Chunk options!
+
+* ECHO=TRUE: Execute the code and then print the code to the output.
+* Eval=TRUE/FALSE: Are we going to actually run the code?
+  * remember that the codes talk to each other. if you do not evaluate a chunk of code with objects called, then you cannot call upon them later unless you define them elsewhere. same is true for packages loaded into R.
+* Message=FALSE: Do not show any messages printed to screen after running the code.
+
+* We are using the .rmd but under the hood the itermediate file we are actually working with is .md. This file can then be changed to .html, .pdf, .doc. If you go to settings, you can hold on to the .md file. This is not always kept. 
+
+* .css file is cascading style sheet. can use those from typora to format rmarkdown files.
+
 ------
 
 <div id='id-section7'/>
 ## Page 7 2018-01-30
+
+**Beamer Baby!!**
+
+* Rmarkdown-presentation-choose format
+* "##" means a new slide.
+* Render bullet something incrementally --check in the settings!
+  * good to put bullet points in one at a time. because audience will read everything all at once. adding the bullets in one at a time will force the readers to read the text as you talk about it.
+* Can comment in the beamer slides without it showing on the pdf when rendered. do this with LaTeX code ($ or %)
+* Need to have all images saved in the directory of the .rmd.
+
+```{}
+ .R      typora
+  |       |
+.rmd -> (.md) - can make .html, .pdf (based on .md), .pdf (beamer slides)
+
+.Rnw (sweave) --------- .pdf (LaTeX)
+```
+
+To change the .rmd to .r (regular script) in the console.
+
+```{}
+library(knitr)
+purl("FirstHTML.Rmd")
+```
+
+To change old R script code to an HTML or PDF without the .rmd file, use the notebook button. 
 
 ------
 
