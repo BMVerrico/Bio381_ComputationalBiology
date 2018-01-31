@@ -13,7 +13,7 @@ output:
 * Affiliation: Plant Biology Department, University of Vermont 
 * Email: bverrico@uvm.edu 
 
-      <img src="dnarep.jpg" width="200" height="150" />
+<center> <img src="dnarep.jpg" width="200" height="150" /> <center>
 
 ## Useful links:
 * [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
@@ -52,6 +52,7 @@ output:
 <div id='id-section3'/>
 ### Week 3: 
 
+[Beamer Slides](Homework3.pdf)
 
 ------
 <div id='id-section4'/>
