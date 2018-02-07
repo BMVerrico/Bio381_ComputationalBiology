@@ -28,11 +28,15 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 * [Page 7: 2018-01-30](#id-section7). 
 * [Page 8: 2018-01-31](#id-section8). 
 * [Page 9: 2018-02-01](#id-section9).
+* [Page 10: 2018-02-06](#id-section10).
+* [Page 11: 2018-02-07](#id-section10).
+* [Page 12: 2018-02-08](#id-section10).
+* [Page 13: 2018-02-13](#id-section10).
 
 ------
 
 <div id='id-section1'/>
-## Page 1: 2018-01-16. 
+## Page 1: 16 Jan 2018 
 
 1. how to think on paper
 2. how to use modern computational tools for science 
@@ -100,7 +104,7 @@ locate the file, but that is all.
 ------
 
 <div id='id-section2'/>  
-## Page 2: 2018-01-17
+## Page 2: 17 Jan 2018
 
 * RSTUDIO PROJECT IS USEFUL BECAUSE YOU CAN HAVE MANY FILES WITHIN THE PROJECT AND CALL UPON DIFFERENT OBJECTS WITHOUT HAVING TO RUN ALL OF THE CODE. 
 * To make a webpage, need an "index" file (saved index.rmd)
@@ -114,7 +118,7 @@ locate the file, but that is all.
 ------
 
 <div id='id-section3'/>
-## Page 3: 2018-01-18
+## Page 3: 18 Jan 2018
 
 #### General good practices 
 * Touch type: should be around 60-70words/minute
@@ -223,7 +227,7 @@ if heating the treatment, should have the same set up just not turned on to call
 ------
 
 <div id='id-section4'/>
-## Page 4: 2018-01-23
+## Page 4: 23 Jan 2018
 
 * Plain text: nothing but printable text chars. that are readable by humans and machines.
   * .txt, .md (markdown format), .rmd ( R markdown format), .tex (LaTeX format)
@@ -247,14 +251,14 @@ if heating the treatment, should have the same set up just not turned on to call
 ------
 
 <div id='id-section5'/>
-## Page 5: 2018-01-24
+## Page 5: 24 Jan 2018
 
 Working on path analyses. Used mermaid flow charts and relied heavily on the cheat sheets to do this.
 
 ------
 
 <div id='id-section6'/>
-## Page 6: 2018-01-25
+## Page 6: 25 Jan 2018
 
 * See FirstHTML.Rmd. Using three languages here (R, markdown, and LaTeX)
 
@@ -278,7 +282,7 @@ Chunk options!
 ------
 
 <div id='id-section7'/>
-## Page 7 2018-01-30
+## Page 7 30 Jan 2018
 
 **Beamer Baby!!**
 
@@ -323,7 +327,7 @@ control enter: run line(s) of code
 control shift enter: run everything in the script
 ```
 
-### Data types
+**Data types**
 
 Homogeneous: same type of data, hetero=opposite
 
@@ -339,14 +343,76 @@ n           Array
 * Doubles (doubles precision) (numeric)
 * logical (TRUE T, FALSE F) (bright pink font)
 * factor (set of character strings, groups, used in statistical models)
+
 ------
 
 <div id='id-section8'/>
-## Page 8 2018-01-31
+## Page 8 31 Jan 2018
+
+Made beamer presentation using notes above and from class webpage.
 
 ------
 
 <div id='id-section9'/>
-## Page 9 2018-02-01
+## Page 9 01 Feb 2018
+
+Useful commands that you have used before but good to remember
+
+1. typeof() --- TYPE OF OBJECT
+2. str() --- STRUCTURE
+3. is.____ (e.g. numeric)()---EVALUATE
+4. names(vector object)
+
+* Scaler is a single numeric vector (length of 1)
+* Remember to enter NA for missing data into the datasheet or wherever data is being stored. This is good practice to make it easier when loading data into R. 
+* NaN (not a number)
+* hierarchy of conversion
+  * logicals -> integers -> double -> character
+
+```{r}
+# test with NAs
+mat=matrix(nrow=3, ncol=2)
+mat[1,]=c(NA,2)
+mat[2,]=c(3,NA)
+mat[3,]=c(5,6)
+
+# print the rows with the missing data
+is.na(mat) # all well and good for small matrices
+
+subset(mat, is.na(mat[,2]))
+subset(mat, is.na(mat[,1]))
+subset(mat, is.na(mat[,1]) && is.na(mat[,2])) # doesnt work
+
+
+# this still isn't working
+tmp=matrix(nrow=10, ncol=2)
+tmp[,1]=c(1,2,3,NA,NA,4,6,4,3,4)
+tmp[,2]=c(4,NA,5,7,8,NA,NA,NA,9,8)
+colnames(tmp)=c("hello", "bye")
+tmp[(which(is.na(tmp))/ncol(tmp)),]
+# tmp[(which(is.na(tmp))/ncol(tmp)),]
+
+```
+------
+
+<div id='id-section10'/>  
+## Page 10: 06 Feb 2018
+
+All notes are in BasicCoding.R
+
+------
+
+<div id='id-section11'/>  
+## Page 11: 07 Feb 2018
+
+------
+
+<div id='id-section12'/>  
+## Page 12: 08 Feb 2018
+
+------
+
+<div id='id-section13'/>  
+## Page 13: 13 Feb 2018
 
 ------

@@ -58,6 +58,8 @@ output:
 <div id='id-section4'/>
 ### Week 4:    
 
+[Homework 4 R code](Homework4.html)
+
 ------
 <div id='id-section5'/>   
 ### Week 5: 

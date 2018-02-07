@@ -388,8 +388,8 @@ if heating the treatment, should have the same set up just not turned on to call
 <li>Can comment in the beamer slides without it showing on the pdf when rendered. do this with LaTeX code ($ or %)</li>
 <li>Need to have all images saved in the directory of the .rmd.</li>
 </ul>
-<pre><code> .R      typora
-  |       |
+<pre><code>         typora
+           |
 .rmd -&gt; (.md) - can make .html, .pdf (based on .md), .pdf (beamer slides)
 
 .Rnw (sweave) --------- .pdf (LaTeX)</code></pre>
@@ -397,16 +397,87 @@ if heating the treatment, should have the same set up just not turned on to call
 <pre><code>library(knitr)
 purl(&quot;FirstHTML.Rmd&quot;)</code></pre>
 <p>To change old R script code to an HTML or PDF without the .rmd file, use the notebook button.</p>
+<pre><code> .R --------------------(with notebook)    
+  |  (with purl)            |     |
+.rmd -&gt; (.md) - can make .html, .pdf (based on .md), .pdf (beamer slides)</code></pre>
+<p><strong>To R scripts we go!</strong></p>
+<ul>
+<li>History and the up arrow in the console shows previous code.</li>
+<li><p>Try to break the = habit and use &lt;- instead…you can do this BMV!</p>
+<pre><code>control l: clear the consol
+control enter: run line(s) of code
+control shift enter: run everything in the script</code></pre></li>
+</ul>
+<p><strong>Data types</strong></p>
+<p>Homogeneous: same type of data, hetero=opposite</p>
+<p>I need to learn how to make tables!</p>
+<p>Dimensions Homogeneous Heterogeneous 1 Atomic vector List 2 Matrix Data frame (kind of list) n Array</p>
+<ul>
+<li>Character string “i” (green font)</li>
+<li>Integers (numeric)</li>
+<li>Doubles (doubles precision) (numeric)</li>
+<li>logical (TRUE T, FALSE F) (bright pink font)</li>
+<li>factor (set of character strings, groups, used in statistical models)</li>
+</ul>
 <hr />
 <div id="id-section8"></div>
 </div>
 <div id="page-8-2018-01-31" class="section level2">
 <h2><span class="header-section-number">1.8</span> Page 8 2018-01-31</h2>
+<p>Made beamer presentation using notes above and from class webpage.</p>
 <hr />
 <div id="id-section9"></div>
 </div>
 <div id="page-9-2018-02-01" class="section level2">
 <h2><span class="header-section-number">1.9</span> Page 9 2018-02-01</h2>
+<p>Useful commands that you have used before but good to remember</p>
+<ol style="list-style-type: decimal">
+<li>typeof() — TYPE OF OBJECT</li>
+<li>str() — STRUCTURE</li>
+<li>is.____ (e.g. numeric)()—EVALUATE</li>
+<li>names(vector object)</li>
+</ol>
+<ul>
+<li>Scaler is a single numeric vector (length of 1)</li>
+<li>Remember to enter NA for missing data into the datasheet or wherever data is being stored. This is good practice to make it easier when loading data into R.</li>
+<li>NaN (not a number)</li>
+<li>hierarchy of conversion</li>
+<li>logicals -&gt; integers -&gt; double -&gt; character</li>
+</ul>
+<pre class="r"><code># test with NAs
+mat=matrix(nrow=3, ncol=2)
+mat[1,]=c(NA,2)
+mat[2,]=c(3,NA)
+mat[3,]=c(5,6)
+
+# print the rows with the missing data
+is.na(mat) # all well and good for small matrices</code></pre>
+<pre><code>##       [,1]  [,2]
+## [1,]  TRUE FALSE
+## [2,] FALSE  TRUE
+## [3,] FALSE FALSE</code></pre>
+<pre class="r"><code>subset(mat, is.na(mat[,2]))</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    3   NA</code></pre>
+<pre class="r"><code>subset(mat, is.na(mat[,1]))</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   NA    2</code></pre>
+<pre class="r"><code>subset(mat, is.na(mat[,1]) &amp;&amp; is.na(mat[,2])) # doesnt work</code></pre>
+<pre><code>##      [,1] [,2]</code></pre>
+<pre class="r"><code># this still isn't working
+tmp=matrix(nrow=10, ncol=2)
+tmp[,1]=c(1,2,3,NA,NA,4,6,4,3,4)
+tmp[,2]=c(4,NA,5,7,8,NA,NA,NA,9,8)
+colnames(tmp)=c(&quot;hello&quot;, &quot;bye&quot;)
+tmp[(which(is.na(tmp))/ncol(tmp)),]</code></pre>
+<pre><code>##      hello bye
+## [1,]     2  NA
+## [2,]     2  NA
+## [3,]     4  NA
+## [4,]     4  NA
+## [5,]     4  NA
+## [6,]     3   9</code></pre>
+<pre class="r"><code># tmp[(which(is.na(tmp))/ncol(tmp)),]</code></pre>
 <hr />
 </div>
 </div>
