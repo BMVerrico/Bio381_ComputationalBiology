@@ -369,30 +369,6 @@ Useful commands that you have used before but good to remember
 * hierarchy of conversion
   * logicals -> integers -> double -> character
 
-```{r}
-# test with NAs
-mat=matrix(nrow=3, ncol=2)
-mat[1,]=c(NA,2)
-mat[2,]=c(3,NA)
-mat[3,]=c(5,6)
-
-# print the rows with the missing data
-is.na(mat) # all well and good for small matrices
-
-subset(mat, is.na(mat[,2]))
-subset(mat, is.na(mat[,1]))
-subset(mat, is.na(mat[,1]) && is.na(mat[,2])) # doesnt work
-
-
-# this still isn't working
-tmp=matrix(nrow=10, ncol=2)
-tmp[,1]=c(1,2,3,NA,NA,4,6,4,3,4)
-tmp[,2]=c(4,NA,5,7,8,NA,NA,NA,9,8)
-colnames(tmp)=c("hello", "bye")
-tmp[(which(is.na(tmp))/ncol(tmp)),]
-# tmp[(which(is.na(tmp))/ncol(tmp)),]
-
-```
 ------
 
 <div id='id-section10'/>  
@@ -405,14 +381,139 @@ All notes are in BasicCoding.R
 <div id='id-section11'/>  
 ## Page 11: 07 Feb 2018
 
+All notes are in BasicCoding.R and MatricesLists.R.
+
 ------
 
 <div id='id-section12'/>  
 ## Page 12: 08 Feb 2018
 
+All notes are in BasicCoding.R and MatricesLists.R.
+
 ------
 
 <div id='id-section13'/>  
 ## Page 13: 13 Feb 2018
+
+**Regular expressions!!**
+
+* Grep: special case of searching regular expression. 
+* Cleaning data is different than data wrangling
+  * copy dataset! no track changes unless commands are written otherwise
+  * wrangling is more formatting the data
+* If using basic text editor, uncheck 'grep' to search for the literal character. If you include 'grep', escape the metacharacter with a slash \
+* Commands are generally greedy unless otherwise specified
+* black: reg expression, blue: wildcard red: quantifiers 
+* `\\` search for the `\`  
+
+Wilcards
+
+1. `.` any character or space other than an end-of-line 
+2. `\w` a single word character ( letter, number, or _)
+3. `\d` a single number character [0-9]
+4. `\t` a single tab space
+5. `\s` a single space, tab, or line break
+6. `\n` a single line break
+
+Quantifyers
+
+1. `\w +` one or more consecutive word characters
+2. `\w*` zero or more consecutive word characters
+3. `\w{3,}` find 3 or more consecutive word characters
+4. `\3{3,5}` find 3,4, or 5 consecutive word characters 
+
+* `.csv` normally there is a single space between the comma and the character string.
+  * if there are zero or 1+ spaces--need to clean this
+  `\s*,\s*/, /` 
+  find one or more spaces followed by a comma, followed by one or more spaces, replace with a comma and a space
+
+Example: find each line
+```{}
+x, MyWord OtherJunk. ,
+13, MyWord2,OtherStuff,,
+X13, MyThirdWord,	More trash|##
+xxx,LastWord	x.
+
+\w+,\s*\w+.*
+Look for characters (at least 1) and stop at the comma (search for the comma too). Then search for another word without looking for any space. It is greedy so it will make the word as long as it can until it hits a non-word character. In this case, a comma, space, or period. The asterisk here says keep everything else that is on the line out to the line break. 
+```
+
+Steps to do with reg. expressions
+
+1. Find the different elements in the text
+2. Capture some of the elements
+3. Replace some of the elements
+
+* Use `()` to capture text. 
+* Specify consecutive capture elements with `\1` `\2` etc in the replacement string
+* can mix capture text with literal text
+
+Example: capture
+```{}
+x, MyWord OtherJunk. ,
+13, MyWord2,OtherStuff,,
+X13, MyThirdWord,	More trash|##
+xxx,LastWord	x.
+
+Find: \w+,\s*(\w+).*
+Replace: ImportantStuff: \1
+
+ImportantStuff: MyWord
+ImportantStuff: MyWord2
+ImportantStuff: MyThirdWord
+ImportantStuff: LastWord
+```
+
+Example with multiple searches from above
+```{}
+(\w+),\s*(\w+).*
+  \2, \1
+  
+MyWord, x
+MyWord2, 13
+MyThirdWord, X13
+LastWord, xxx
+```
+
+Genus and species names
+```{}
+Lasius neoniger
+Lasius umbratus
+Myrmica lobifrons
+
+Find: \w\w+\s\w+
+Capture: (\w)\w+\s(\w+)
+Replace: \1_\2
+
+L_neoniger
+L_umbratus
+M_lobifrons
+
+In words: Find first letter of the genus and then find the rest of the genus name. Search for single space. Being lazy and assuming that there is only one space between genus and species. Then find the entire species name. Capture the first letter of the genus and the entire name of the species. Replace with First letter of genus _ species.
+
+L_neoniger
+L_umbratus
+M_lobifrons
+
+Find: (\w)\_(\w+)
+Replace: \1, \2
+
+L, neoniger
+L, umbratus
+M, lobifrons
+```
+
+Create custom character sets
+  * Characters (, and ^) are needed but ignored
+  * No real order here
+  * Use brackets when we are not sure what we are exactly looking for.
+  * Use regular searches as above if something is specific
+  
+1. `\[A,C,T,G]` finds a single nucleotide 
+2. `\[A,C,T,G]+` finds a sequence of nucleotides 
+3. `[^A,C,T,G]+` find a string that is not a sequence
+4. `\[A,C,T,G]{20}` finds a sequence that is 20 in length
+
+R package called `stringr` can help deal with character strings. Similar to regregular expressions. More helpful if data is continuously added to the dataset. The reg. expressions are like a one and done thing. Can have a script in R to record what is done though. 
 
 ------

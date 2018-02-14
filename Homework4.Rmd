@@ -5,7 +5,6 @@ date: "2/6/2018"
 output: html_document
 ---
 
-
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(width.cutoff=60)
 ```
@@ -38,8 +37,6 @@ z=(round(z, 1)- round(z,0)) * 10
 print(z)
 ```
 
-
-
 ####**2.Using the rep and seq functions, create the following vectors:**
 
 a. (1,2,3,4,5,6,7,8,7,6,5,4,3,2,1)
@@ -63,8 +60,6 @@ print(vec3)
 
 ```
 
-
-
 ####**3. Create a vector of two random uniform numbers. In a spatial map, these can be interpreted as x and y coordinates that give the location of an individual (such as a marked forest tree in a plot that has been mapped). Using one of R’s inverse trigonometry functions (asin(), acos(), or atan()), convert these numbers into polar coordinates (If you don’t know what polar coordinates are, read about them on the web or in your calculus textbook).**
 
 POLAR COORDS: each point on a plane is determined by a distance from a reference point and an angle from a reference direction.
@@ -85,8 +80,6 @@ theta=atan(xy[2]/xy[1])
 polarCoords=c(r, theta)
 print(polarCoords)
 ```
-
-
 
 ####**4. Suppose that queue <- c("sheep", "fox", "owl", "ant") and that queue represents the animals that are lined up to enter Noah’s Ark, with the sheep at the front of the line. **
 
@@ -157,9 +150,9 @@ b. Making successive copies of z, transform your vector of uniform numbers in th
 
 b.1 log (base 10) of z
 
-b.2 z2
+b.2 z^2
 
-b.3 ez
+b.3 exp z
 
 b.4 square root of z
 

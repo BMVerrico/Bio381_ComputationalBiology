@@ -188,7 +188,7 @@ theta=atan(xy[2]/xy[1])
 # need to combine the coords again
 polarCoords=c(r, theta)
 print(polarCoords)</code></pre>
-<pre><code>## [1] 1.042390 1.239323</code></pre>
+<pre><code>## [1] 0.9251337 1.4595711</code></pre>
 </div>
 <div id="suppose-that-queue---csheep-fox-owl-ant-and-that-queue-represents-the-animals-that-are-lined-up-to-enter-noahs-ark-with-the-sheep-at-the-front-of-the-line." class="section level4">
 <h4><strong>4. Suppose that queue &lt;- c(“sheep”, “fox”, “owl”, “ant”) and that queue represents the animals that are lined up to enter Noah’s Ark, with the sheep at the front of the line. </strong></h4>
@@ -251,34 +251,34 @@ print(q5sln)</code></pre>
 <pre class="r"><code>z=runif(1000)
 proportions=c((sum(z[which(z&lt;0.1)])/1000), (sum(z[which(z&gt;0.9)])/1000), (sum(z[which(z&gt;0.45 &amp; z&lt;0.55)])/1000))
 print(proportions)</code></pre>
-<pre><code>## [1] 0.005008467 0.108340754 0.046667828</code></pre>
+<pre><code>## [1] 0.00608708 0.07932115 0.04874062</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Making successive copies of z, transform your vector of uniform numbers in the following ways:</li>
 </ol>
 <p>b.1 log (base 10) of z</p>
-<p>b.2 z2</p>
-<p>b.3 ez</p>
+<p>b.2 z^2</p>
+<p>b.3 exp z</p>
 <p>b.4 square root of z</p>
 <p>For each case calculate your vector of 3 numbers to get the new proportions.</p>
 <pre class="r"><code># b.1
 z=log10(z)
 proportions=c((sum(z[which(z&lt;0.1)])/1000), (sum(z[which(z&gt;0.9)])/1000), (sum(z[which(z&gt;0.45 &amp; z&lt;0.55)])/1000))
 print(proportions)</code></pre>
-<pre><code>## [1] -0.4318787  0.0000000  0.0000000</code></pre>
+<pre><code>## [1] -0.4571929  0.0000000  0.0000000</code></pre>
 <pre class="r"><code># b.2
 z=z^2
 proportions=c((sum(z[which(z&lt;0.1)])/1000), (sum(z[which(z&gt;0.9)])/1000), (sum(z[which(z&gt;0.45 &amp; z&lt;0.55)])/1000))
 print(proportions)</code></pre>
-<pre><code>## [1] 0.01393541 0.23060393 0.01497394</code></pre>
+<pre><code>## [1] 0.01471473 0.24220361 0.02223000</code></pre>
 <pre class="r"><code># b.3
 z=exp(z)
 proportions=c((sum(z[which(z&lt;0.1)])/1000), (sum(z[which(z&gt;0.9)])/1000), (sum(z[which(z&gt;0.45 &amp; z&lt;0.55)])/1000))
 print(proportions)</code></pre>
-<pre><code>## [1] 0.000000 8.371957 0.000000</code></pre>
+<pre><code>## [1] 0.000000 9.964883 0.000000</code></pre>
 <pre class="r"><code>z=sqrt(z)
 proportions=c((sum(z[which(z&lt;0.1)])/1000), (sum(z[which(z&gt;0.9)])/1000), (sum(z[which(z&gt;0.45 &amp; z&lt;0.55)])/1000))
 print(proportions)</code></pre>
-<pre><code>## [1] 0.000000 1.403013 0.000000</code></pre>
+<pre><code>## [1] 0.000000 1.434986 0.000000</code></pre>
 </div>
 
 

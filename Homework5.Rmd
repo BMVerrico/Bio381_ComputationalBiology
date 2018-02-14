@@ -1,0 +1,131 @@
+---
+title: "Homework 5"
+author: "BMV"
+date: "2/13/2018"
+output: html_document
+---
+
+Solutions to homework 5 problem set. 
+
+**Question 1**
+
+Starting text:
+```{}
+First String	Second		1.22		3.4
+Second			More Text	1.555555	2.2220
+Third			x			3			124
+```
+
+* Find: `(\w)\t+`
+* Replace: `\1,`
+
+In words: Find the last word character before a tab or multiple tabs. The `+` is included in the second search string because multiple tabs were used to align the columns. Capture the last word character because we do not want to truncate the strings/data in the columns. Use the captured word character to place a comma directly after the last word character of the column before for the replace.
+
+End result:
+```{}
+First String,Second,1.22,3.4
+Second,More Text,1.555555,2.2220
+Third,x,3,124
+```
+
+Notes: the text on the assignment does not include a space after each comma. If this was desired then I would incorporate a `\s` or a empty space in the replace command. In this example, you cannot search for the last word character of one column and the first word character of the subsequent column, because of the "x" in column 3 row 3. The search command removes this coord when this type of search is used.
+
+**Question 2**
+
+Starting text:
+```{}
+Ballif, Bryan, University of Vermont
+Ellison, Aaron, Harvard Forest
+Record, Sydne, Bryn Mawr
+```
+
+* Find:`(\w+), (\w+), (\w.*)`
+* Replace: `\2 \1 (\3)`
+
+In words: Find a set 1 or more word characters followed by a comma and a space. Repeat this search. Find 1 word character and everything to the end of the line (before the line break). Capture each set of words and use these captures to: place the first name first, followed by the last name, and include the affiliation within ().
+
+End result:
+```{}
+Bryan Ballif (University of Vermont)
+Aaron Ellison (Harvard Forest)
+Sydne Record (Bryn Mawr)
+```
+
+Notes: `(\w+\s\w+)` does not work as the last part of the find command. I was trying to make the expression less greedy, but the "of" in UVM provides inconsistent spacing with the affiliations.
+
+**Question 3**
+
+Starting text:
+```{}
+0001 Georgia Horseshoe.mp3 0002 Billy In The Lowground.mp3 003 Cherokee Shuffle.mp3 0004 Walking Cane.mp3
+```
+
+Move each file name to a new line:
+
+* Find:`(.mp3)\s(\d{3,4})`
+* Replace:`\1\n\2`
+
+In words: Convert the spaces to line breaks. Find the .mp3 that is constant in each of the file names followed by a space. After the space there will be a 3 or 4 digit numeric 'string' that signfies a new file name. Capture the .mp3 and the digits because the file names should not be altered during the replace. Place the .mp3 first, add in a line break to replace the space and then place the digits for the next filename. 
+
+End result:
+```{}
+0001 Georgia Horseshoe.mp3
+0002 Billy In The Lowground.mp3
+003 Cherokee Shuffle.mp3
+0004 Walking Cane.mp3
+```
+
+Move the 3 or 4 digit number to end of title on above text:
+
+* Find: `(\d{3,4})\s(.+)(\.mp3)`
+* Replace: `\2_\1\3`
+
+In words: Find the 3 or 4 digits that are now at the beginning of the file names followed by a single space. Then find any character until the .mp3 which is constant in each name. The `*` will not work here because it finds everything to the line break.  The digits should be inserted before the .mp3 and not after it, so a `+` works better. Capture the digits, any character after the space BEFORE the .mp3, and the .mp3. Place the string of characters (spaces and words) first, followed by an _, then the digits (3 or 4 of them), followed by the .mp3.
+
+End result:
+```{}
+Georgia Horseshoe_0001.mp3
+Billy In The Lowground_0002.mp3
+Cherokee Shuffle_003.mp3
+Walking Cane_0004.mp3
+```
+
+Notes: I kept the original text as it was written and did not manually add in a 0 for the 003 file. If I did change everything to 4 digits then I could have used `\d{4}`.
+
+**Question 4**
+
+Starting text:
+```{}
+Camponotus,pennsylvanicus,10.2,44
+Camponotus,herculeanus,10.5,3
+Myrmica,punctiventris,12.2,4
+Lasius,neoniger,3.3,55
+```
+
+* Find:`(\w)\w+\,(\w+)\,\d{1,2}\.\d\,(\d{1,2})`
+* Replace:`\1_\2,\3`
+
+In words: Find the first word character of the first string. Find the remaining word characters up until the comma. Find the comma (need back slash). Find the second set of word characters and include all of the characters until the comma. Find a comma. Find 1 or 2 digits followed by a period. Find the remaining single digit after the period. Find a comma. Find 1 or 2 digits. If I wanted to be greedy, then I do not need to specify with `{1,2}` after the `\d`. Capture the first word character, the second set of word characters (species) and the last set of 1-2 digits. Use these captures to place the first letter (word char) of the genus first, followed by an _. Then use the full species name (second capture) and place the last set of 1-2 digits (third capture).
+
+End result:
+```{}
+C_pennsylvanicus,44
+C_herculeanus,3
+M_punctiventris,4
+L_neoniger,55
+```
+
+Using the original text for question 4:
+
+* Find: `(\w)\w+\,(\w{4})\w+\,\d{1,2}\.\d\,(\d{1,2})`
+* Replace: `\1_\2,\3`
+
+In words: The only thing I changed compared to the first "find" for this question is: Find the first 4 word characters of the species name and capture these. Then, find the remaining characters in the species name and do not capture these.
+
+End result:
+```{}
+C_penn,44
+C_herc,3
+M_punc,4
+L_neon,55
+```
