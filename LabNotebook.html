@@ -154,9 +154,11 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 <li><a href="#id-section8">Page 8: 2018-01-31</a>.</li>
 <li><a href="#id-section9">Page 9: 2018-02-01</a>.</li>
 <li><a href="#id-section10">Page 10: 2018-02-06</a>.</li>
-<li><a href="#id-section10">Page 11: 2018-02-07</a>.</li>
-<li><a href="#id-section10">Page 12: 2018-02-08</a>.</li>
-<li><a href="#id-section10">Page 13: 2018-02-13</a>.</li>
+<li><a href="#id-section11">Page 11: 2018-02-07</a>.</li>
+<li><a href="#id-section12">Page 12: 2018-02-08</a>.</li>
+<li><a href="#id-section13">Page 13: 2018-02-13</a>.</li>
+<li><a href="#id-section14">Page 14: 2018-02-14</a>.</li>
+<li><a href="#id-section15">Page 15: 2018-02-15</a>.</li>
 </ul>
 <hr />
 <div id="id-section1"></div>
@@ -573,8 +575,49 @@ M, lobifrons</code></pre>
 <li><code>\[A,C,T,G]</code> finds a single nucleotide</li>
 <li><code>\[A,C,T,G]+</code> finds a sequence of nucleotides</li>
 <li><code>[^A,C,T,G]+</code> find a string that is not a sequence</li>
-<li><h2 id="actg20-finds-a-sequence-that-is-20-in-length"><span class="header-section-number">1.13</span> <code>\[A,C,T,G]{20}</code> finds a sequence that is 20 in length</h2></li>
+<li><code>\[A,C,T,G]{20}</code> finds a sequence that is 20 in length</li>
 </ol>
+<p>R package called <code>stringr</code> can help deal with character strings. Similar to regregular expressions. More helpful if data is continuously added to the dataset. The reg. expressions are like a one and done thing. Can have a script in R to record what is done though.</p>
+<hr />
+<div id="id-section14"></div>
+</div>
+<div id="page-14-14-feb-2018" class="section level2">
+<h2><span class="header-section-number">1.14</span> Page 14: 14 Feb 2018</h2>
+<p>Worked with regular expressions to complete homework 5. No new notes.</p>
+<hr />
+<div id="id-section15"></div>
+</div>
+<div id="page-15-15-feb-2018" class="section level2">
+<h2><span class="header-section-number">1.15</span> Page 15: 15 Feb 2018</h2>
+<p>ignore typos… typing quickly to catch up.</p>
+<p><strong>Working with probability distributions.</strong></p>
+<ul>
+<li>Deterministic model: get same answer every time model is used. analytical. mathematical.</li>
+<li><p>Stochastic model: do not get same answer every time because there is a variable, or multiple variables that change in the model.</p></li>
+<li><p>Randomness= ignorance.</p></li>
+</ul>
+<p>In reality, there is no uncertainty because there is a chain of cause and effect events that lead to the current situation. We just do not know what the story is with all of the steps. We lump this ignorance and uncertainty into the randomness. Equates to one variable in the model.</p>
+<p><strong>Notes about mean and variance.</strong></p>
+<ul>
+<li>will need to look at paper to get the equations.</li>
+<li>remember that variance is the variability of each obs around the mean.</li>
+<li>the function is squared so that the variance is always positive, or 0 if every obs is equal to the mean.</li>
+</ul>
+<p><strong>Moments</strong></p>
+<ol style="list-style-type: decimal">
+<li>mean</li>
+<li>variance</li>
+<li>skewness: how much do the data skew to the left or the right (non-symmetrical)</li>
+<li>kurtosis: shape of the distribution with regards to the tails. skinny or fat tails of the distribution</li>
+</ol>
+<p><strong>Rstudio: rnorm, dnorm, pnorm, qnorm</strong></p>
+<ul>
+<li>qnorm is the inverse of pnorm (looks at quantiles, like between 5 and 95%)</li>
+<li>pnorm involves the cumulative area function (0-1)</li>
+<li>dnorm looks at the count of observations. area under the curve =1</li>
+<li>remember that x is continuos, so mass above any particular point is 0, but when x is binned we can see that some values of x have &gt; mass than others</li>
+</ul>
+<hr />
 </div>
 </div>
 

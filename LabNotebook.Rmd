@@ -29,9 +29,11 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 * [Page 8: 2018-01-31](#id-section8). 
 * [Page 9: 2018-02-01](#id-section9).
 * [Page 10: 2018-02-06](#id-section10).
-* [Page 11: 2018-02-07](#id-section10).
-* [Page 12: 2018-02-08](#id-section10).
-* [Page 13: 2018-02-13](#id-section10).
+* [Page 11: 2018-02-07](#id-section11).
+* [Page 12: 2018-02-08](#id-section12).
+* [Page 13: 2018-02-13](#id-section13).
+* [Page 14: 2018-02-14](#id-section14).
+* [Page 15: 2018-02-15](#id-section15).
 
 ------
 
@@ -515,5 +517,52 @@ Create custom character sets
 4. `\[A,C,T,G]{20}` finds a sequence that is 20 in length
 
 R package called `stringr` can help deal with character strings. Similar to regregular expressions. More helpful if data is continuously added to the dataset. The reg. expressions are like a one and done thing. Can have a script in R to record what is done though. 
+
+------
+
+<div id='id-section14'/>  
+## Page 14: 14 Feb 2018
+
+Worked with regular expressions to complete homework 5. No new notes.
+
+------
+
+<div id='id-section15'/>  
+## Page 15: 15 Feb 2018
+
+ignore typos... typing quickly to catch up.
+
+**Working with probability distributions.** 
+
+* Deterministic model: get same answer every time model is used. analytical. mathematical.
+* Stochastic model: do not get same answer every time because there is a variable, or multiple variables that change in the model. 
+
+* Randomness= ignorance. 
+
+In reality, there is no uncertainty because there is a chain of cause and effect events that lead to the current situation. We just do not know what the story is with all of the steps. We lump this ignorance and uncertainty into the randomness. Equates to one variable in the model. 
+
+**Notes about mean and variance.**
+
+* will need to look at paper to get the equations. 
+* remember that variance is the variability of each obs around the mean. 
+* the function is squared so that the variance is always positive, or 0 if every obs is equal to the mean.
+
+**Moments**
+
+1. mean
+2. variance
+3. skewness: how much do the data skew to the left or the right (non-symmetrical)
+4. kurtosis: shape of the distribution with regards to the tails. skinny or fat tails of the distribution
+
+**Rstudio: rnorm, dnorm, pnorm, qnorm**
+
+* qnorm is the inverse of pnorm (looks at quantiles, like between 5 and 95%)
+* pnorm involves the cumulative area function (0-1)
+* dnorm looks at the count of observations. area under the curve =1
+  * remember that x is continuos, so mass above any particular point is 0, but when x is binned we can see that some values of x have > mass than others
+  
+**Functions**
+
+See notes in probDist.R
 
 ------

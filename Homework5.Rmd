@@ -30,6 +30,8 @@ Third,x,3,124
 
 Notes: the text on the assignment does not include a space after each comma. If this was desired then I would incorporate a `\s` or a empty space in the replace command. In this example, you cannot search for the last word character of one column and the first word character of the subsequent column, because of the "x" in column 3 row 3. The search command removes this coord when this type of search is used.
 
+Lauren's find: `\s{2,}`
+
 **Question 2**
 
 Starting text:
@@ -50,6 +52,8 @@ Bryan Ballif (University of Vermont)
 Aaron Ellison (Harvard Forest)
 Sydne Record (Bryn Mawr)
 ```
+
+Lauren's find: `(\w+), (\w+), (.*)`
 
 Notes: `(\w+\s\w+)` does not work as the last part of the find command. I was trying to make the expression less greedy, but the "of" in UVM provides inconsistent spacing with the affiliations.
 
