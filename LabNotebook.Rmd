@@ -34,6 +34,7 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 * [Page 13: 2018-02-13](#id-section13).
 * [Page 14: 2018-02-14](#id-section14).
 * [Page 15: 2018-02-15](#id-section15).
+* [Page 16: 2018-02-20](#id-section15).
 
 ------
 
@@ -564,5 +565,26 @@ In reality, there is no uncertainty because there is a chain of cause and effect
 **Functions**
 
 See notes in probDist.R
+
+------
+
+<div id='id-section16'/>  
+## Page 16: 20 Feb 2018
+
+See notes in probDist.R
+
+* statistical p = p(data | hypothesis)
+  * how probable are the data if this hypothesis is true
+
+* what is the probability of the data given the model parms that are present
+  * p = p(data | parms)
+  
+* what is the probability of these parms given the data
+(how likely are the parms)
+  * p= (parms | data)
+  * for the data that you have the combination of parms is the most probable or most likely. 
+  * max like= max(p(parms | data))
+  
+* there are more likely values or most likely values for a given parm, and these are called the maximum likelihood value 
 
 ------
