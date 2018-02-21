@@ -193,7 +193,7 @@ meanML <- normPars$estimate["mean"]
 sdML <- normPars$estimate["sd"]
 
 xval <- seq(0,max(picea_65$DIAM),len=length(picea_65$DIAM))
-# correct number of obs. in xval.
+# correct number of obs. in xval. but why is this needed? why not use DIAM values?
 
  stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(picea_65$myVar), args = list(mean = meanML, sd = sdML))
  p1 + stat
@@ -362,40 +362,127 @@ Plot a basic histogram of the data. Long tail to the right (left skew)
 ```{r}
 p65 <- ggplot(data=picea_65, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw() + ggtitle("1965")
 
 p79 <- ggplot(data=picea_79, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw()+ ggtitle("1979")
 
 p83 <- ggplot(data=picea_83, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw()+ ggtitle("1983")
 
 p86 <- ggplot(data=picea_86, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw()+ ggtitle("1986")
 
 p90 <- ggplot(data=picea_90, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw()+ ggtitle("1990")
 
 p95 <- ggplot(data=picea_95, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw()+ ggtitle("1995")
 
 p00 <- ggplot(data=picea_00, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw()+ ggtitle("2000")
 
 p04 <- ggplot(data=picea_04, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw() + ggtitle("2004")
 
 p15 <- ggplot(data=picea_15, aes(x=DIAM, y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
-  theme_bw()
+  theme_bw() + ggtitle("2015")
 
 library(gridExtra)
 grid.arrange(p65, p79, p83, p86, p90, p95, p00, p04, p15, nrow = 3, ncol=3)
 ```
+
+While the data in different years may be modeled best by different distributions, I am going to apply the log normal distribution to each year.
+```{r}
+parms65 <- fitdistr(picea_65$DIAM,"lognormal")
+parms79 <- fitdistr(picea_79$DIAM,"lognormal")
+parms83 <- fitdistr(picea_83$DIAM,"lognormal")
+parms86 <- fitdistr(picea_86$DIAM,"lognormal")
+parms90 <- fitdistr(picea_90$DIAM,"lognormal")
+parms95 <- fitdistr(picea_95$DIAM,"lognormal")
+parms00 <- fitdistr(picea_00$DIAM,"lognormal")
+parms04 <- fitdistr(picea_04$DIAM,"lognormal")
+parms15 <- fitdistr(picea_15$DIAM,"lognormal")
+
+# Assign the max. like. estimates of mean and sd to objects to be passed to model.
+mean65<- parms65$estimate["meanlog"]
+sd65 <- parms65$estimate["sdlog"]
+
+mean79<- parms79$estimate["meanlog"]
+sd79 <- parms79$estimate["sdlog"]
+
+mean83<- parms83$estimate["meanlog"]
+sd83 <- parms83$estimate["sdlog"]
+
+mean86<- parms86$estimate["meanlog"]
+sd86 <- parms86$estimate["sdlog"]
+
+mean90<- parms90$estimate["meanlog"]
+sd90 <- parms90$estimate["sdlog"]
+
+mean95<- parms95$estimate["meanlog"]
+sd95 <- parms95$estimate["sdlog"]
+
+mean00<- parms00$estimate["meanlog"]
+sd00 <- parms00$estimate["sdlog"]
+
+mean04<- parms04$estimate["meanlog"]
+sd04 <- parms04$estimate["sdlog"]
+
+mean15<- parms15$estimate["meanlog"]
+sd15 <- parms15$estimate["sdlog"]
+
+xval65 <- seq(0,max(picea_65$DIAM),len=length(picea_65$DIAM))
+xval79 <- seq(0,max(picea_79$DIAM),len=length(picea_79$DIAM))
+xval83 <- seq(0,max(picea_83$DIAM),len=length(picea_83$DIAM))
+xval86 <- seq(0,max(picea_86$DIAM),len=length(picea_86$DIAM))
+xval90 <- seq(0,max(picea_90$DIAM),len=length(picea_90$DIAM))
+xval95 <- seq(0,max(picea_95$DIAM),len=length(picea_95$DIAM))
+xval00 <- seq(0,max(picea_00$DIAM),len=length(picea_00$DIAM))
+xval04 <- seq(0,max(picea_04$DIAM),len=length(picea_04$DIAM))
+xval15 <- seq(0,max(picea_15$DIAM),len=length(picea_15$DIAM))
+
+stat65 <- stat_function(aes(x = xval65, y = ..y..), fun = dlnorm, colour="red", n = length(picea_65$DIAM), args = list(mean = mean65, sd = sd65))
+
+stat79 <- stat_function(aes(x = xval79, y = ..y..), fun = dlnorm, colour="red", n = length(picea_79$DIAM), args = list(mean = mean79, sd = sd79))
+
+stat83 <- stat_function(aes(x = xval83, y = ..y..), fun = dlnorm, colour="red", n = length(picea_83$DIAM), args = list(mean = mean83, sd = sd83))
+
+stat86 <- stat_function(aes(x = xval86, y = ..y..), fun = dlnorm, colour="red", n = length(picea_86$DIAM), args = list(mean = mean86, sd = sd86))
+
+stat90 <- stat_function(aes(x = xval90, y = ..y..), fun = dlnorm, colour="red", n = length(picea_90$DIAM), args = list(mean = mean90, sd = sd90))
+
+stat65 <- stat_function(aes(x = xval, y = ..y..), fun = dlnorm, colour="red", n = length(picea_65$DIAM), args = list(mean = mean65, sd = sd65))
+
+stat95 <- stat_function(aes(x = xval95, y = ..y..), fun = dlnorm, colour="red", n = length(picea_95$DIAM), args = list(mean = mean95, sd = sd95))
+
+stat65 <- stat_function(aes(x = xval, y = ..y..), fun = dlnorm, colour="red", n = length(picea_65$DIAM), args = list(mean = mean65, sd = sd65))
+
+stat00 <- stat_function(aes(x = xval00, y = ..y..), fun = dlnorm, colour="red", n = length(picea_00$DIAM), args = list(mean = mean00, sd = sd00))
+
+stat04 <- stat_function(aes(x = xval04, y = ..y..), fun = dlnorm, colour="red", n = length(picea_04$DIAM), args = list(mean = mean04, sd = sd04))
+
+stat15 <- stat_function(aes(x = xval15, y = ..y..), fun = dlnorm, colour="red", n = length(picea_15$DIAM), args = list(mean = mean15, sd = sd15))
+ 
+p65= p65+ stat65
+p79= p79+ stat79
+p83= p83+ stat83
+p86= p86+ stat86
+p90= p90+ stat90
+p95= p95+ stat95
+p00= p00+ stat00
+p04= p04+ stat04
+p15= p15+ stat15
+
+grid.arrange(p65, p79, p83, p86, p90, p95, p00, p04, p15, nrow = 3, ncol=3)
+
+```
+
