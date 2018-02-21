@@ -1,0 +1,401 @@
+---
+title: "Homework6"
+author: "BMV"
+date: "2/20/2018"
+output: html_document
+---
+```{r}
+#Load libraries
+library(ggplot2) # for graphics
+library(MASS) # for maximum likelihood estimation
+
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# make data
+# quick and dirty, a truncated normal distribution to work on the solution set
+
+# sd not established
+z <- rnorm(n=3000,mean=0.2)
+# transform z from a vector to a data frame with a count of 1-3000
+z <- data.frame(1:3000,z)
+# set colnames
+names(z) <- list("ID","myVar")
+# this is the truncating step. include values only greater than 0
+# 1746 obs now.
+z <- z[z$myVar>0,]
+str(z)
+summary(z$myVar)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# quick histo
+
+# Plot a histogram of the data, using a modification of the code from lecture. Here we are switching from qplot to ggplot for more graphics options. We are also rescaling the y axis of the histogram from counts to density, so that the area under the histogram equals 1.0.
+
+# the y=..density.. is new to me. this must do the scaling
+
+# if you didn't have the density option here, what would go in the y axis? count? i have only used the basic R plot for quick histos.
+
+p1 <- ggplot(data=z, aes(x=myVar, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+print(p1)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# add emperical density currve (this is based on the data)
+
+# Now modify the code to add in a kernel density plot of the data. This is an empirical curve that is fitted to the data. It does not assume any particular probability distribution, but it smooths out the shape of the histogram:
+
+p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
+print(p1)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+# get maximum likelihood for normal
+
+# Next, fit a normal distribution to your data and grab the maximum likelihood estimators of the two parameters of the normal, the mean and the variance:
+
+normPars <- fitdistr(z$myVar,"normal")
+print(normPars) # thought we needed to specify $estimate... guess not.
+# below are the $sd values... how do these relate to the mean and sd estimates?
+
+str(normPars)
+normPars$estimate["mean"] # note structure of getting a named attribute
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#Plot normal probability density
+
+#Now let’s call the dnorm function inside ggplot’s stat_function to generate the probability density for the normal distribution. Read about stat_function in the help system to see how you can use this to add a smooth function to any ggplot. Note that we first get the maximum likelihood parameters for a normal distribution fitted to these data by calling fitdistr. Then we pass those parameters (meanML and sdML to stat_function:
+
+meanML <- normPars$estimate["mean"] # was set to 0.2 before
+sdML <- normPars$estimate["sd"]
+
+xval <- seq(0,max(z$myVar),len=length(z$myVar))
+# sequence from 0 to max value in z, length of myVar (the 1746 obs)
+# not sure the purpose of this. why can't we use the myVar values?
+
+ stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$myVar), args = list(mean = meanML, sd = sdML))
+p1 + stat
+
+# Notice that the best-fitting normal distribution (red curve) for these data actually has a biased mean. That is because the data set has no negative values, so the normal distribution (which is symmetric) is not working well.
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#Plot exponential probability density
+
+#Now let’s use the same template and add in the curve for the exponential:
+
+expoPars <- fitdistr(z$myVar,"exponential")
+# parm for the exponential distribution
+rateML <- expoPars$estimate["rate"]
+
+# adding lines is pretty easy.
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$myVar), args = list(rate=rateML))
+ p1 + stat + stat2
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#Plot uniform probability density
+
+#For the uniform, we don’t need to use fitdistr because the maximum likelihood estimators of the two parameters are just the minimum and the maximum of the data:
+
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
+ p1 + stat + stat2 + stat3
+ # terrible fit
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#Plot gamma probability density
+
+gammaPars <- fitdistr(z$myVar,"gamma") # lots of NAs
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+# i really need to learn about ..y.. i think this could be really useful with how i think about things
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$myVar), args = list(shape=shapeML, rate=rateML))
+ p1 + stat + stat2 + stat3 + stat4
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#Plot beta probability density
+
+#This one has to be shown in its own plot because the raw data must be rescaled so they are between 0 and 1, and then they can be compared to the beta.
+
+# why + 0.1?
+pSpecial <- ggplot(data=z, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  xlim(c(0,1)) +
+  geom_density(size=0.75,linetype="dotted")
+
+# Na's produced
+betaPars <- fitdistr(x=z$myVar/max(z$myVar + 0.1),start=list(shape1=1,shape2=2),"beta")
+shape1ML <- betaPars$estimate["shape1"]
+shape2ML <- betaPars$estimate["shape2"]
+
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
+pSpecial + statSpecial
+```
+
+The example code is not printed in the output, but it is here for reference.
+
+* So you can eyeball the shape fit/ or do goodness of fit test, what next? What do you actually do with the distribution that best fits the data?
+
+  
+Now to use my own data:
+
+The data I have are census data for forest tree species. The data include 9 census years and spans an elevational gradient. There are 10 stands spaced evenly across the slope, and each stand has 10 or 5 plots. Within each plot, the species and diameter-at-breast height were recorded for each species (> 2 cm minimum). 
+
+I am going to subset the data for a particular species, red spruce (coded here as 4). I would like to see the distribution of DBH. I will start by subsetting the data for this species and for one year (1 plot). Ultimately, I would like to do this for all 9 years ( 9 plots). I could even subset further to look at distribution of dbh for each stand across all 9 census years (90 plots).
+
+There is a magnitude difference in the number of obs. I wonder if 197 obs are enough.
+```{r}
+
+data=read.csv("/Volumes/Macintosh HD/Users/Brittany/Documents/UVM/red spruce/CHSurvey1965_2015/CH_data_1965_2015.csv", header=TRUE)
+
+picea=subset(data, data$SPECIES==4)
+# 1211 obs.
+picea_65=subset(picea, picea$YR==1965)
+# 197 obs. 
+summary(picea_65$DIAM)
+# the data are bounded at a lower limit of 2cm diameter. I wonder how this translates to the bound of 0. Does this act as my 0?
+```
+
+Plot a basic histogram of the data. Long tail to the right (left skew)
+```{r}
+p1 <- ggplot(data=picea_65, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+print(p1)
+
+```
+
+Add a denisty curve based on the data.
+```{r}
+p1 <-  p1 +  geom_density(linetype="dotted",size=0.75) +ggtitle("Original data")
+print(p1)
+```
+
+Use the `normal` distribution to find max. likelihood estimates of the mean and standard deviation. 
+```{r}
+normPars <- fitdistr(picea_65$DIAM,"normal")
+print(normPars) # large sd
+str(normPars)
+
+```
+
+Plot the `normal` probability density function. My gut says this will not fit the data very well. 
+
+```{r}
+# Assign the max. like. estimates of mean and sd to objects to be passed to model.
+meanML <- normPars$estimate["mean"]
+sdML <- normPars$estimate["sd"]
+
+xval <- seq(0,max(picea_65$DIAM),len=length(picea_65$DIAM))
+# correct number of obs. in xval.
+
+ stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(picea_65$myVar), args = list(mean = meanML, sd = sdML))
+ p1 + stat
+```
+
+Plot `exponential` probability density. This may look okay. Not as good as what I was expecting, but still not too bad.
+
+```{r}
+# Get the needed rate parm to fit the distribution.
+expoPars <- fitdistr(picea_65$DIAM,"exponential")
+rateML <- expoPars$estimate["rate"]
+
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(picea_65), args = list(rate=rateML))
+ p1 + stat + stat2
+```
+
+Plot `uniform` probability density. Should look terrible.
+
+```{r}
+# remember, the min and max of picea_65$DIAM are the data that go into this function. 
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(picea_65$DIAM), args = list(min=min(picea_65$DIAM), max=max(picea_65$DIAM)))
+ p1 + stat + stat2 + stat3
+```
+
+I am noticing that all my distributions start at 0, even though I do not have data at 0cm diameter. Also, none of the distributions seems to capture the high density of small diameters.
+
+Plot `gamma` probability density. 
+```{r}
+gammaPars <- fitdistr(picea_65$DIAM,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="indianred", n = length(picea_65$DIAM), args = list(shape=shapeML, rate=rateML))
+ p1 + stat + stat2 + stat3 + stat4
+```
+
+Adding in more distributions to see if any others will capture more of the density with smaller dimeters.
+
+Plot the `weibull` probability distribution
+```{r}
+weibullPars <- fitdistr(picea_65$DIAM,"weibull")
+shapeML <- weibullPars$estimate["shape"]
+scaleML <- weibullPars$estimate["scale"]
+
+stat5 <- stat_function(aes(x = xval, y = ..y..), fun = dweibull, colour="gold", n = length(picea_65$DIAM), args = list(shape=shapeML, scale=scaleML))
+p1 + stat + stat2 + stat3 + stat4 + stat5
+
+```
+
+Plot `log normal` probability distribution.
+```{r}
+lognormPars <- fitdistr(picea_65$DIAM,"lognormal")
+
+# Assign the max. like. estimates of mean and sd to objects to be passed to model.
+logmeanML <- lognormPars$estimate["meanlog"]
+logsdML <- lognormPars$estimate["sdlog"]
+
+stat6 <- stat_function(aes(x = xval, y = ..y..), fun = dlnorm, colour="purple", n = length(picea_65$DIAM), args = list(mean = logmeanML, sd = logsdML))
+ 
+p1 + stat + stat2 + stat3 + stat4 + stat5 + stat6
+```
+
+Plot the `logistic` probability distribution
+```{r}
+logPars <- fitdistr(picea_65$DIAM,"logistic")
+loglocationML <- logPars$estimate["location"]
+logscaleML <- logPars$estimate["scale"]
+
+stat7 <- stat_function(aes(x = xval, y = ..y..), fun = dlogis, colour="pink", n = length(picea_65$DIAM), args = list(location=loglocationML, scale=logscaleML))
+
+p1 + stat + stat2 + stat3 + stat4 + stat5 +stat6 +stat7
+
+```
+
+Plot `beta` probability density. Remember to scale between 0-1-- needs to be a separate figure because of this. 
+
+Captures the high density of small diameteres, but still looks a bit off.
+```{r}
+pSpecial <- ggplot(data=picea_65, aes(x=picea_65$DIAM/(max(picea_65$DIAM + 0.1)), y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) + 
+  xlim(c(0,1)) +
+  geom_density(size=0.75,linetype="dotted") + theme_bw()
+
+betaPars <- fitdistr(x=picea_65$DIAM/max(picea_65$DIAM + 0.1),start=list(shape1=1,shape2=2),"beta")
+shape1ML <- betaPars$estimate["shape1"]
+shape2ML <- betaPars$estimate["shape2"]
+
+
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(picea_65$DIAM), args = list(shape1=shape1ML,shape2=shape2ML))
+
+pSpecial + statSpecial
+```
+
+Look at the stats to see which model is best.
+
+Compare log likelihoods: the highest number is the best.
+
+**Log normal is the best fitting distribution.**
+```{r}
+normPars$loglik
+logPars$loglik
+gammaPars$loglik
+expoPars$loglik
+lognormPars$loglik 
+weibullPars$loglik
+```
+
+Look at AIC values. Smaller values are better. 
+
+**Log normal still pulling as best distribution.**
+```{r}
+library(fitdistrplus)
+fit.norm=fitdist(picea_65$DIAM, "norm")
+fit.norm$aic
+fit.logistic=fitdist(picea_65$DIAM, "logis")
+fit.logistic$aic
+fit.gamma=fitdist(picea_65$DIAM, "gamma")
+fit.gamma$aic
+fit.expo=fitdist(picea_65$DIAM, "exp")
+fit.expo$aic
+fit.lognorm=fitdist(picea_65$DIAM, "lnorm")
+fit.lognorm$aic
+fit.weibull=fitdist(picea_65$DIAM, "weibull")
+fit.weibull$aic
+
+```
+
+**Simulate data using the maximum likelihood estimates from the `log normal` distribution.** 
+
+```{r}
+logmeanML <- lognormPars$estimate["meanlog"]
+logsdML <- lognormPars$estimate["sdlog"]
+
+# Use 197 for n because this is what i have in the og data
+sim_data=rlnorm(n=197, meanlog=logmeanML, sd=logsdML)
+sim_data <- data.frame(1:197,sim_data)
+colnames(sim_data)=c("x", "DIAM")
+# plot a basic histogram and add the probability density curve.
+p_sim_data <- ggplot(data=sim_data, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p_sim_data <-  p_sim_data +  stat6 + ggtitle("Simulated data")
+
+# Add in original data to compare
+
+library(gridExtra)
+grid.arrange(p1, p_sim_data, nrow=2)
+```
+
+The histograms are comparable and I think the model is doing a decent job at modelling the data. There is a higher density of "trees" in the simulated data with smaller diameters that spread out between 2-20cm, rather than concentrated at maybe 2-5cm. The scale of the density is also different, which is what made me notice this. The right tail is still present with a strong left skew. The simulated data include "trees" with diameters greater than 60cm, whereas the original data do not include anything above ~55cm. These values are possible, we just did not observe them in the sampling. 
+
+Look at the distribution of spruce across the years.
+```{r}
+picea_79=subset(picea, picea$YR==1979)
+picea_83=subset(picea, picea$YR==1983)
+picea_86=subset(picea, picea$YR==1986)
+picea_90=subset(picea, picea$YR==1990)
+picea_95=subset(picea, picea$YR==1995)
+picea_00=subset(picea, picea$YR==2000)
+picea_04=subset(picea, picea$YR==2004)
+picea_15=subset(picea, picea$YR==2015)
+```
+
+Plot a basic histogram of the data. Long tail to the right (left skew)
+```{r}
+p65 <- ggplot(data=picea_65, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p79 <- ggplot(data=picea_79, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p83 <- ggplot(data=picea_83, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p86 <- ggplot(data=picea_86, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p90 <- ggplot(data=picea_90, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p95 <- ggplot(data=picea_95, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p00 <- ggplot(data=picea_00, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p04 <- ggplot(data=picea_04, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+p15 <- ggplot(data=picea_15, aes(x=DIAM, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2, bins = 50) +
+  theme_bw()
+
+library(gridExtra)
+grid.arrange(p65, p79, p83, p86, p90, p95, p00, p04, p15, nrow = 3, ncol=3)
+```

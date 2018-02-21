@@ -71,6 +71,8 @@ output:
 
 ### Week 6: 
 
+[Homework 6 Probability Distributions](Homework6.html)
+
 ------
 <div id='id-section7'/>
 ### Week 7: 
