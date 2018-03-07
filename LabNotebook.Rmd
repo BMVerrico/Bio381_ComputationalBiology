@@ -34,7 +34,10 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 * [Page 13: 2018-02-13](#id-section13).
 * [Page 14: 2018-02-14](#id-section14).
 * [Page 15: 2018-02-15](#id-section15).
-* [Page 16: 2018-02-20](#id-section15).
+* [Page 16: 2018-02-20](#id-section16).
+* [Page 17: 2018-02-22](#id-section17).
+* [Page 18: 2018-02-27](#id-section18).
+* [Page 19: 2018-02-28](#id-section19).
 
 ------
 
@@ -588,3 +591,131 @@ See notes in probDist.R
 * there are more likely values or most likely values for a given parm, and these are called the maximum likelihood value 
 
 ------
+
+<div id='id-section17'/>  
+## Page 17: 22 Feb 2018
+
+1. Begin with an observed data set. Something we already collected.
+    * Data follows some sort of distribution which can be seen with histogram
+    
+2. Choose appropriate statistical distribution.
+    * bounded vs. unbounded
+    * discrete vs continuous
+    
+3. Each distribution has its own shape and parms (e.g. mean, sd)
+    * When parms are changed, the distribution shape is changed. 
+    * Want to choose the best parms that fit our data the best
+    * Use f(x) `fitdistr` to get maximum likelihood estimates of the model parms. This says, this is the combo of parms that characterizes the curve that best fits the data.
+    
+4. Get mean and variance of the data. 
+     * We get these for any distribution fit we make. 
+     * Parms in the model generate a mean and variance for a simulated dataset
+     
+5. What would means and variances look like for different groups in our experiment?
+     * What do we expect to find? What should the pattern of parms look like between the groups if the hypothesis is true?
+     
+6. Change the values of the parms and simulate a data set.
+    * We will need a different set of parms for each group in the experiment. 
+    * Set up the idealized world. 
+    * Are the simulated data reasonable?
+7. Compare groups in the fake data set with ANOVA, regression, etc.
+
+8. P value is determined by the sample size (n), within group variance, differences in means of different groups (effect size)= LOOK AT THESE!
+    * for each group, should have at least 10 obs. (rule of 10 ind. replicates-- measurement on one unit does not affect or relie on other units)
+    * sample size is largely determined by logistics (time, money, space)
+    * what is the maximum total n possible? is the sample size actually large enough to find the effect that is there.
+    * within group variance: heterogenity in the histogram.
+      * still want some variance within the group (e.g. genos-biological)
+        * but do not want statistical error. (range of var--larger it is, the more difficult it will be to see the pattern)
+      * among group means- depends on the preds of the hypothesis but also on what the reasonable values are. likely an upper and lower limt, but the means themselves should be different (depending on the hypothesis)
+      
+9. Analyze the model with the fake data- generate a p-value
+    * if p >0.05 (not sig.) how much replication needed to get a sig result
+        * crank up the sample size. experimental design change.
+    * if p >0.05 how large would the differences in the group means need to be to get sig result
+        * here do not change the sample size, but how far apart do means need to be? effect size! shift mean value of 1 or more of the group. not changing the experimental conditions but rather the response. tinker with the parms that generate the parms. when means are shifted then you need to ask if the means are actually biologically feasible. 
+    * can ask the reverse questions if p < 0.05. how far can i decrease sample size, how small can the mean value differences be?
+        
+
+**Metadata: description of EVERYTHING in the dataset.**
+
+**This should live with the actual data. same file. this is amazing.**
+
+ID: sequential row count! row names =1, header = TRUE
+
+```{}
+data=read.table(file="Filename.csv", row.names = 1, header=TRUE, sep=",",
+                stringsAsFactors = FALSE)
+               # Call factors later on. 
+```
+
+------
+
+<div id='id-section'/>  
+## Page 18: 27 Feb 2018
+
+* Variable: dependent or independent
+* Discrete or continuous (integer, real number)
+
+* Independent and dependent vars can discrete or continuous
+
+* 2 continuous vars= regression
+* Indepdent=discrete, dependent=continuous = anova
+* Indepdent=continuous, dependent=discrete = logisitic regression (0,1 response for x axis)
+* 2 discrete vars= contingency analysis
+
+What to do:
+* Look to see how the data need to be structured. I.e. how does the data frame need to look.
+* Model code
+* Simple visualization
+
+
+Regression: 
+* a and b do they differ from 0-hypothesis testing
+* line drawn: mle to see best fit
+* null hypothesis is that the data are scattered 
+* r squared: how much variation is explained. 
+* 1= all variance explained, 0= no variance explained, model has no predictor power
+
+Continuous: measurements (length, temperature, ppt)
+Discrete: categorical (count data
+
+ANOVA: differences between the groups
+Regression: is there a relationship between x and y
+
+------
+
+<div id='id-section'/>  
+## Page 19: 1 Mar 2018
+
+Everything in exptdesign.R and functions.R
+
+Anatomy of uses: defined R functions
+
+```
+function name= function (parm X =some number of function assigned to X[default X], parm y= something, parm Z= something) {
+
+lines of R code and annotations
+may call other functions
+may create new functions
+may create local variables
+
+return(z--could be a list or a vector))
+}
+```
+function name  # prints contents of the function
+function name () # calls function with default values
+function name (parm X=10, parm Y=FALSE, parm Z=c(2,3,4))
+
+
+Style for functions
+
+* fence off funcion with prominent comments
+* give header and description of the function, input, output
+* simple names for local vars
+* no more than ~1 screenful of code-- chunk of the functions
+* provide default values for all parms
+* use random number generator to create the default values
+    * each time you run the default you get a different set of values
+        * rather than manually change the numbers
+        

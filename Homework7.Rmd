@@ -1,0 +1,342 @@
+---
+title: "Homework7"
+author: "BMV"
+date: "2/28/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I am going to create a fake dataset that creates a relationship between budset and elevation. In my experiment, I expect phenotypic variation in ecologically important traits related to growing season length. I hypothesized that bud set occurs earlier at higher elevations and later at lower elevations. A preliminary analysis indicated that the difference may be on the scale of 1 week, with a negative relationship between time of bud set and elevation. 
+
+I could use a regression or an ANOVA to analyze the data, depending if I define the independent variable (elevation) as continuous or discrete. To use elevation as a discrete variable, I will need to bin trees into  elevational groups (low, mid, high).
+
+**I will use a regression for the first pass at this.**
+
+Create a dataset for budset following a normal distribution. The mean will correspond to the mean budset day across the entire range of elevations, and the standard deviation should be pretty small. To generate a dataset for elevation, I will create a sequence of all posible elevations for the trees I collected, then sample a subset to correspond to the actual size of the data. 
+
+Create a function to create budset dataframe 
+```{r}
+# I am setting the mean Julian day of budset to 290, this is around mid October The actual day does not matter, but what does matter is the range of Julian day values across the gradient. I set the standard deviation to 3.5 because I noticed an ~ week difference in a common garden experiment. I collected cones from 40 trees that will be used in the experiment (this is equal to n)). 
+
+# SORT by TRUE to have the values start with later budset dates 
+budsetCreate=function(mean=290, sd=3.5, n=40){
+  budsetDF=data.frame(budset=sort(rnorm(mean=mean, n=n, sd=sd), decreasing = TRUE))
+  return(budsetDF)
+}
+
+budsetDF=budsetCreate()
+head(budsetDF)
+```
+
+Create function to have 40 randomly selected elevations. 
+```{r}
+# the parms in the function (from, to, by) are for the seq function already built into R. I have included the range of elevations for the 40 trees I collected from this year.
+elevationCreate=function(from=430, to=1200, by=1, n=40){
+  elevationSites=seq(from=from, to=to, by=1)
+  elevationDF=data.frame(elevation=sort(sample(elevationSites, size=n)))
+  return(elevationDF)
+}
+
+elevationDF=elevationCreate()
+head(elevationDF)
+```
+
+Now, I need to combine the two dataframes into one.
+```{r}
+df=data.frame(budsetDF, elevationDF)
+```
+
+Write a regression function.
+```{r}
+fitLinear=function(data=df){
+  myMod=lm(budset ~ elevation, data=data)# fits the model
+  slope=summary(myMod)$coefficients[2,1]
+  pval=summary(myMod)$coefficients[2,4]
+  myOutput=c(slope, pval)
+  return(myOutput[2])
+}
+
+fitLinear() # negative slope and highly significant p-value
+
+# old way that includes slope and p values.
+# myOutput=c(slope=summary(myMod)$coefficients[2,1],
+          #pval=summary(myMod)$coefficients[2,4])
+  #return(myOutput)
+```
+
+Write a function to plot the relationship. 
+```{r}
+library(ggplot2)
+plotFUN=function(data=df, y=df$budset, x=df$elevation){
+  ggplot(data=data, aes(x=x, y=y)) + geom_point() + theme_bw() +
+    stat_smooth(method=lm)
+}
+
+plotFUN()
+
+```
+
+**Original parms**
+
+`(mean=290, sd=3.5, n=40)`
+
+**Tests to see how small sample sizes can be and still get a significant relationsip**
+
+
+**`(mean=290, sd=3.5, n=20)`** I ran this code a few times and p is always <=0.05.
+```{r}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  budsetDF=budsetCreate(n=20)
+  elevationDF=elevationCreate(n=20)
+  df=data.frame(budsetDF, elevationDF)
+  results[i]=fitLinear(df)
+}
+sum(results<=0.05) 
+```
+
+**`(mean=290, sd=3.5, n=15)`** I ran this code a few times and p is always <=0.05.
+```{r}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  budsetDF=budsetCreate(n=15)
+  elevationDF=elevationCreate(n=15)
+  df=data.frame(budsetDF, elevationDF)
+  results[i]=fitLinear(df)
+}
+sum(results<=0.05)
+```
+
+**`(mean=290, sd=3.5, n=10)`** I ran this code a few times and p is <=0.05 99-100% of the time.
+```{r}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  budsetDF=budsetCreate(n=10)
+  elevationDF=elevationCreate(n=10)
+  df=data.frame(budsetDF, elevationDF)
+  results[i]=fitLinear(df)
+}
+sum(results<=0.05)
+```
+
+**`(mean=290, sd=3.5, n=7)`** I ran this code a few times and p is <=0.05 ~ 98% of the time.
+```{r}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  budsetDF=budsetCreate(n=7)
+  elevationDF=elevationCreate(n=7)
+  df=data.frame(budsetDF, elevationDF)
+  results[i]=fitLinear(df)
+}
+sum(results<=0.05)
+```
+
+**`(mean=290, sd=3.5, n=5)`** I ran this code a few times and p is <=0.05 ~ 70% of the time.
+```{r}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  budsetDF=budsetCreate(n=5)
+  elevationDF=elevationCreate(n=5)
+  df=data.frame(budsetDF, elevationDF)
+  results[i]=fitLinear(df)
+}
+sum(results<=0.05)
+```
+
+After running the model a few times (with original parms and modified n), the relationship seems too nice and perfect. The p-value is always extremely small (e-20s). The slope is different than 0. 
+
+What if I did not set the trend to be negative? Then I would have a smattering of points (no sort on the functions) rather than coding it to have a negative relationship. This yields p-values not as significant.
+
+```{r}
+budsetCreate2=function(mean=290, sd=3.5, n=40){
+  budsetDF2=data.frame(budset=(rnorm(mean=mean, n=n, sd=sd)))
+  return(budsetDF2)
+}
+
+budsetDF2=budsetCreate2()
+
+elevationCreate2=function(from=430, to=1200, by=1, n=40){
+  elevationSites2=seq(from=from, to=to, by=1)
+  elevationDF2=data.frame(elevation=sort(sample(elevationSites2, size=n)))
+  return(elevationDF2)
+}
+
+elevationDF2=elevationCreate2()
+
+df2=data.frame(budsetDF2, elevationDF2)
+
+fitLinear(df2) 
+
+plotFUN(df2, df2$budset, df2$elevation)
+```
+
+**Bin elevation into three groups (low, mid, high) and use an ANOVA analysis**
+
+Create a function to create budset dataframe 
+```{r}
+# Following the same rationale before:
+# i will split my 40 trees into 3 groups (n=13 for each (not exactly realistic but we will call it this for the assignment))
+# the ~ week difference in timing of budset is greatest between low and high elevations. 
+# i think mid will fall closer to low elevation
+# sd between each group should be on the magnitude of a few days. i will try setting this to 3-5 for low and mid elevation, but perhaps high elevation has a smaller range because of how different the climate and env. is at the summit.
+
+dataCreate <- function(mean1=280,mean2=283,mean3=287,n=13,sd1=4,sd2=3,sd3=2){
+  mydf <- data.frame(low=rnorm(mean=mean1,n=n,sd=sd1), 
+                     mid=rnorm(mean=mean2,n=n,sd=sd2), 
+                     high=rnorm(mean=mean3,n=n,sd=sd3))
+  return(mydf)
+}
+myDF <- dataCreate()
+myDF
+str(myDF)
+```
+
+Transform the data from wide to long format with `reshape`. Write ANOVA function.
+```{r}
+library(reshape2)
+
+ANOfun=function(data1=myDF, data2=myDFlong){
+  suppressMessages(expr = myDFlong <- melt(myDF))
+  #myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOmod=aov(budset ~ elevation, data=data2)
+  ANOsum=summary(ANOmod)
+  return(ANOsum)
+}
+ANOfun() # consistently significant results between the groups
+```
+
+Write a function to plot the relationship. 
+```{r}
+# i am recalling the melt function outside of the function created just before this. 
+myDFlong2=melt(myDF)
+plotFUN=function(data=myDFlong2){
+  ggplot(data=data, aes(x=myDFlong2$variable, y=myDFlong2$value, fill=myDFlong2$variable)) + geom_boxplot() + theme_bw()
+}
+plotFUN()
+```
+
+Run the analysis several times to see the number of times p is <= 0.05.
+```{r, message=FALSE}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  myDF <- dataCreate()
+  myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOsum <- ANOfun()
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) # 100% significant differences.
+
+```
+
+**Adjust the means to determine how close they can be to still see a significant differnce.**
+
+**Original parms:**
+`mean1=280,mean2=283,mean3=287,n=13,sd1=4,sd2=3,sd3=2`
+
+**Parms `mean1=280, mean2=282, mean3=285`**
+```{r, message=FALSE}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  myDF <- dataCreate(mean1=280, mean2=282, mean3=285)
+  myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOsum <- ANOfun()
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) # 96% significant differences.
+
+```
+
+**Parms `mean1=280, mean2=280, mean3=282`**
+```{r, message=FALSE}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  myDF <- dataCreate(mean1=280, mean2=280, mean3=282)
+  myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOsum <- ANOfun()
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) # 35% significant differences.
+```
+
+With the sample sizes that I have, it seems like if mid and low have the same mean budset then it is likely that I will not see a significant differnece between the groups. I am more concerned about this outcome than other elevational comparisons. But what if there isn't that much of a difference between low and high....
+
+**Parms `mean1=280, mean2=281, mean3=283`**
+```{r, message=FALSE}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  myDF <- dataCreate(mean1=280, mean2=281, mean3=283)
+  myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOsum <- ANOfun()
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) # 56% significant differences.
+
+```
+
+Narrowing the mean values of low and high really reduce the probablity of getting a significant difference between the elevational groups. 
+
+**What if I decrease the sample size?**
+
+**Parms n=10**
+```{r, message=FALSE}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  myDF <- dataCreate(n=10)
+  myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOsum <- ANOfun()
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) # 99% significant differences.
+```
+
+**Parms n=7**
+```{r, message=FALSE}
+results=NULL
+
+times=1000
+for(i in 1:times){
+  myDF <- dataCreate(n=7)
+  myDFlong=melt(myDF)
+  colnames(myDFlong)=c("elevation", "budset")
+  ANOsum <- ANOfun()
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) # 94% significant differences. 
+```
+
+With the original mean values, I would feel comfortable limiting my sample size to 5-7. A sample size of 5 has p values <= 0.05 80% of the time. 

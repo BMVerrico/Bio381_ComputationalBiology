@@ -159,7 +159,8 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 <li><a href="#id-section13">Page 13: 2018-02-13</a>.</li>
 <li><a href="#id-section14">Page 14: 2018-02-14</a>.</li>
 <li><a href="#id-section15">Page 15: 2018-02-15</a>.</li>
-<li><a href="#id-section15">Page 16: 2018-02-20</a>.</li>
+<li><a href="#id-section16">Page 16: 2018-02-20</a>.</li>
+<li><a href="#id-section17">Page 17: 2018-02-22</a></li>
 </ul>
 <hr />
 <div id="id-section1"></div>
@@ -631,11 +632,75 @@ M, lobifrons</code></pre>
 <li><p>how probable are the data if this hypothesis is true</p></li>
 <li>what is the probability of the data given the model parms that are present</li>
 <li><p>p = p(data | parms)</p></li>
+<li>what is the probability of these parms given the data (how likely are the parms)</li>
+<li>p= (parms | data)</li>
+<li>for the data that you have the combination of parms is the most probable or most likely.</li>
+<li><p>max like= max(p(parms | data))</p></li>
+<li><p>there are more likely values or most likely values for a given parm, and these are called the maximum likelihood value</p></li>
 </ul>
-<p><em>what is the probability of these parms given the data (how likely are the parms) </em> p= (parms | data) * for the data that you have the combination of parms is the most probable or most likely. * max like= max(p(parms | data))</p>
+<hr />
+<div id="id-section17"></div>
+</div>
+<div id="page-17-22-feb-2018" class="section level2">
+<h2><span class="header-section-number">1.17</span> Page 17: 22 Feb 2018</h2>
+<ol style="list-style-type: decimal">
+<li>Begin with an observed data set. Something we already collected.
 <ul>
-<li>there are more likely values or most likely values for a given parm, and these are called the maximum likelihood value</li>
-</ul>
+<li>Data follows some sort of distribution which can be seen with histogram</li>
+</ul></li>
+<li>Choose appropriate statistical distribution.
+<ul>
+<li>bounded vs. unbounded</li>
+<li>discrete vs continuous</li>
+</ul></li>
+<li>Each distribution has its own shape and parms (e.g. mean, sd)
+<ul>
+<li>When parms are changed, the distribution shape is changed.</li>
+<li>Want to choose the best parms that fit our data the best</li>
+<li>Use f(x) <code>fitdistr</code> to get maximum likelihood estimates of the model parms. This says, this is the combo of parms that characterizes the curve that best fits the data.</li>
+</ul></li>
+<li>Get mean and variance of the data.
+<ul>
+<li>We get these for any distribution fit we make.</li>
+<li>Parms in the model generate a mean and variance for a simulated dataset</li>
+</ul></li>
+<li>What would means and variances look like for different groups in our experiment?
+<ul>
+<li>What do we expect to find? What should the pattern of parms look like between the groups if the hypothesis is true?</li>
+</ul></li>
+<li>Change the values of the parms and simulate a data set.
+<ul>
+<li>We will need a different set of parms for each group in the experiment.</li>
+<li>Set up the idealized world.</li>
+<li>Are the simulated data reasonable?</li>
+</ul></li>
+<li><p>Compare groups in the fake data set with ANOVA, regression, etc.</p></li>
+<li>P value is determined by the sample size (n), within group variance, differences in means of different groups (effect size)= LOOK AT THESE!
+<ul>
+<li>for each group, should have at least 10 obs. (rule of 10 ind. replicates– measurement on one unit does not affect or relie on other units)</li>
+<li>sample size is largely determined by logistics (time, money, space)</li>
+<li>what is the maximum total n possible? is the sample size actually large enough to find the effect that is there.</li>
+<li>within group variance: heterogenity in the histogram.</li>
+<li>still want some variance within the group (e.g. genos-biological)
+<ul>
+<li>but do not want statistical error. (range of var–larger it is, the more difficult it will be to see the pattern)</li>
+</ul></li>
+<li>among group means- depends on the preds of the hypothesis but also on what the reasonable values are. likely an upper and lower limt, but the means themselves should be different (depending on the hypothesis)</li>
+</ul></li>
+<li>Analyze the model with the fake data- generate a p-value
+<ul>
+<li>if p &gt;0.05 (not sig.) how much replication needed to get a sig result
+<ul>
+<li>crank up the sample size. experimental design change.</li>
+</ul></li>
+<li>if p &gt;0.05 how large would the differences in the group means need to be to get sig result
+<ul>
+<li>here do not change the sample size, but how far apart do means need to be? effect size! shift mean value of 1 or more of the group. not changing the experimental conditions but rather the response. tinker with the parms that generate the parms. when means are shifted then you need to ask if the means are actually biologically feasible.</li>
+</ul></li>
+<li>can ask the reverse questions if p &lt; 0.05. how far can i decrease sample size, how small can the mean value differences be?</li>
+</ul></li>
+</ol>
+<p>Metadata: description of EVERYTHING in the dataset. This should live with the actual data. same file. this is amazing.</p>
 <hr />
 </div>
 </div>

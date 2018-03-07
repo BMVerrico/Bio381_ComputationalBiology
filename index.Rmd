@@ -77,6 +77,7 @@ output:
 <div id='id-section7'/>
 ### Week 7: 
 
+[Homework 7 Creating fake data to test hypotheses](Homework7.html)
 
 ------
 <div id='id-section8'/>
