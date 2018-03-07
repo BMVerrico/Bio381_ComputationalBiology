@@ -160,7 +160,9 @@ Lecture and lab notes for BIOL381 Computational Biology. Not very detailed or de
 <li><a href="#id-section14">Page 14: 2018-02-14</a>.</li>
 <li><a href="#id-section15">Page 15: 2018-02-15</a>.</li>
 <li><a href="#id-section16">Page 16: 2018-02-20</a>.</li>
-<li><a href="#id-section17">Page 17: 2018-02-22</a></li>
+<li><a href="#id-section17">Page 17: 2018-02-22</a>.</li>
+<li><a href="#id-section18">Page 18: 2018-02-27</a>.</li>
+<li><a href="#id-section19">Page 19: 2018-02-28</a>.</li>
 </ul>
 <hr />
 <div id="id-section1"></div>
@@ -700,8 +702,62 @@ M, lobifrons</code></pre>
 <li>can ask the reverse questions if p &lt; 0.05. how far can i decrease sample size, how small can the mean value differences be?</li>
 </ul></li>
 </ol>
-<p>Metadata: description of EVERYTHING in the dataset. This should live with the actual data. same file. this is amazing.</p>
+<p><strong>Metadata: description of EVERYTHING in the dataset.</strong></p>
+<p><strong>This should live with the actual data. same file. this is amazing.</strong></p>
+<p>ID: sequential row count! row names =1, header = TRUE</p>
+<pre><code>data=read.table(file=&quot;Filename.csv&quot;, row.names = 1, header=TRUE, sep=&quot;,&quot;,
+                stringsAsFactors = FALSE)
+               # Call factors later on. </code></pre>
 <hr />
+<div id="id-section"></div>
+</div>
+<div id="page-18-27-feb-2018" class="section level2">
+<h2><span class="header-section-number">1.18</span> Page 18: 27 Feb 2018</h2>
+<ul>
+<li>Variable: dependent or independent</li>
+<li><p>Discrete or continuous (integer, real number)</p></li>
+<li><p>Independent and dependent vars can discrete or continuous</p></li>
+<li>2 continuous vars= regression</li>
+<li>Indepdent=discrete, dependent=continuous = anova</li>
+<li>Indepdent=continuous, dependent=discrete = logisitic regression (0,1 response for x axis)</li>
+<li><p>2 discrete vars= contingency analysis</p></li>
+</ul>
+<p>What to do: * Look to see how the data need to be structured. I.e. how does the data frame need to look. * Model code * Simple visualization</p>
+<p>Regression: * a and b do they differ from 0-hypothesis testing * line drawn: mle to see best fit * null hypothesis is that the data are scattered * r squared: how much variation is explained. * 1= all variance explained, 0= no variance explained, model has no predictor power</p>
+<p>Continuous: measurements (length, temperature, ppt) Discrete: categorical (count data</p>
+<p>ANOVA: differences between the groups Regression: is there a relationship between x and y</p>
+<hr />
+<div id="id-section"></div>
+</div>
+<div id="page-19-1-mar-2018" class="section level2">
+<h2><span class="header-section-number">1.19</span> Page 19: 1 Mar 2018</h2>
+<p>Everything in exptdesign.R and functions.R</p>
+<p>Anatomy of uses: defined R functions</p>
+<pre><code>function name= function (parm X =some number of function assigned to X[default X], parm y= something, parm Z= something) {
+
+lines of R code and annotations
+may call other functions
+may create new functions
+may create local variables
+
+return(z--could be a list or a vector))
+}</code></pre>
+<p>function name # prints contents of the function function name () # calls function with default values function name (parm X=10, parm Y=FALSE, parm Z=c(2,3,4))</p>
+<p>Style for functions</p>
+<ul>
+<li>fence off funcion with prominent comments</li>
+<li>give header and description of the function, input, output</li>
+<li>simple names for local vars</li>
+<li>no more than ~1 screenful of code– chunk of the functions</li>
+<li>provide default values for all parms</li>
+<li>use random number generator to create the default values
+<ul>
+<li>each time you run the default you get a different set of values
+<ul>
+<li>rather than manually change the numbers</li>
+</ul></li>
+</ul></li>
+</ul>
 </div>
 </div>
 
