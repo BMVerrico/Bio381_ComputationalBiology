@@ -83,14 +83,19 @@ output:
 <div id='id-section8'/>
 ### Week 8:  
 
+Homework 8 = Homework 7
+
 ------
 <div id='id-section9'/>
 ### Week 9: 
+
+[Homework 9 Structured Programming](Homework9.html)
 
 ------
 <div id='id-section10'/>
 ### Week 10:    
 
+[Homework 10 Batch Processing](Homework10.html)
 
 ------
 <div id='id-section11'/>

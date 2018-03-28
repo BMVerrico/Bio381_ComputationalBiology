@@ -1,0 +1,174 @@
+---
+title: "Homework 8"
+author: "BMV"
+date: "3/21/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Description
+
+I am going to create a fake dataset that creates a relationship between budset and elevation. In my experiment, I expect phenotypic variation in ecologically important traits related to growing season length. I hypothesized that bud set occurs earlier at higher elevations and later at lower elevations. A preliminary analysis indicated that the difference may be on the scale of 1 week, with a negative relationship between time of bud set and elevation. 
+
+I could use a regression or an ANOVA to analyze the data, depending if I define the independent variable (elevation) as continuous or discrete. To use elevation as a discrete variable, I will need to bin trees into  elevational groups (low, mid, high). For this assignment, I will use an ANOVA.
+
+I have a sample size of 40 trees in my experiment. I will split the families into three groups (n=13). The timing of budset should follow a normal distribution (per assignment directions). Generally, I will have ~ 1 week difference in timing of budset between low and high elevations. The mid-elevation timing could be anywhere between low and high. The standard deviation is a measure of days. Perhaps the high elevation group will have a smaller sd, because of how different the climate and environment is at the summit compared to the low and mid elevations. 
+
+```{r}
+# Preliminaries
+library(reshape2)
+library(ggplot2)
+
+# Global objects
+
+##### first for loop
+# define an empty vector to hold the p values
+results=NULL
+# define the number of times to iterate the for loop
+times=1000
+
+###### second for loop
+# establish possible means for budset 
+# i am setting this to a maximum difference of 10 days across the elevation
+possibleMeans=seq(280,290, by=1)
+
+# set the number of combinations
+# i am setting this to three because i have 3 elevations
+y=3
+
+# find all combinations with this nice package
+all_combinations <- combn(possibleMeans,y)
+
+# create a new object with transpose function
+# change from wide to long format
+# this is needed for easy use in the for loop
+meanCombos=t(all_combinations)
+
+# create empty vector for the for loop
+results2=NULL
+product=NULL
+# create empty matrix for the for loop 
+# number of rows equals number of combinations
+myMat=matrix(nrow=165, ncol=4)
+
+
+############################################################
+# FUNCTION: dataCreate
+# Create a fake data set that establishes a random distribution for timing of budset/elevation following a normal distribution
+# input: 3 means and 3 standard deviations corresponding to low, mid, and high elevation, a value of n (sample size)
+# output: a data frame with 3 columns representing the three elevations. each column will have 13 rows representing a random sample of 13 points from the normal distribution.
+# ----------------------------------------------------------
+dataCreate <- function(mean1=280,mean2=283,mean3=287,n=13,sd1=4,sd2=3,sd3=2){
+  mydf <- data.frame(low=rnorm(mean=mean1,n=n,sd=sd1), 
+                     mid=rnorm(mean=mean2,n=n,sd=sd2), 
+                     high=rnorm(mean=mean3,n=n,sd=sd3))
+  return(mydf)
+}
+dataCreate()
+# assign the output from the function to a variable
+myDF <- dataCreate()
+############################################################
+############################################################
+# FUNCTION: ANOfun
+# Transform the data from wide to long format with reshape package. Perform the ANOVA analysis.
+# input: the data frame created from the first function (myDF) that holds the fake data, and a second dataframe which is the transformed version of the first data frame
+# output: a data frame with the summary output of the ANOVA (ANOsum)
+# ----------------------------------------------------------
+ANOfun=function(data1=myDF){
+  suppressMessages(expr = myDFlong <- melt(data1))
+  # assign names for easy reference in the model
+  colnames(myDFlong)=c("elevation", "budset")
+  # create an object that will hold the output from the ANOVA
+  ANOmod=aov(budset ~ elevation, data=myDFlong)
+  # obtain the summary output from the ANOVA
+  ANOsum=summary(ANOmod)
+  return(ANOsum)
+}
+ANOfun() 
+############################################################
+############################################################
+# FUNCTION: PLOTfun
+# plot the relationship between time of budset and elevation
+# input: fake data set in the wide format
+# output: figure showing the relationship
+# ----------------------------------------------------------
+PLOTfun=function(data=myDF){
+  # re-create the wide format of the data set. i only called this in the previous function.
+  myDFlong <- melt(data)
+  # assign names for easy reference in the model
+  colnames(myDFlong)=c("elevation", "budset")
+  ggplot(data=myDFlong, aes(x=elevation, y=budset, fill=elevation)) + geom_boxplot() + theme_bw()
+}
+PLOTfun()
+############################################################
+############################################################
+# Program body
+
+# Run the analysis several times to see the number of times p is <= 0.05.
+for(i in 1:times){
+  myDF <- dataCreate()
+  ANOsum <- ANOfun()
+  # create a vector that holds the p-value from the ANOVA summary
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  # place the vector of 1 into the results vector, that will continously have an additional element (totally the number of times at the end of the loop)
+  results[i]=ANOfunpval
+}
+sum(results<=0.05) 
+
+
+# determine the possible combinations of means that would lead to significant differences in budset across the elevation
+for(j in 1: nrow(meanCombos)){
+for(i in 1:50){
+  myDF <- dataCreate(mean1 = meanCombos[j,1], mean2= meanCombos[j,2], mean3 = meanCombos[j,3])
+  ANOsum <- ANOfun()
+  # create a vector that holds the p-value from the ANOVA summary
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results2[i]=ANOfunpval
+  product[i]=(sum(results2<=0.05))
+  # add in mean values for each elevation into the matrix
+  myMat[j,1]=meanCombos[j,1]
+  myMat[j,2]=meanCombos[j,2]
+  myMat[j,3]=meanCombos[j,3]
+  myMat[j,4]=product[i]
+}
+}
+print(myMat)
+```
+
+Code that I could not get to work:
+```
+############################################################
+# FUNCTION: COMBOfun
+# determine the number of significant p values based on several combinations of mean values for each elevation
+# input: dataframe including all possible mean values
+# output: matrix with the combinations listed and the number of significant results
+# ----------------------------------------------------------
+COMBOfun=function(comboData=meanCombos){
+
+results2=NULL
+product=NULL
+myMat=matrix(nrow=165, ncol=4)
+
+  for(j in 1: nrow(meanCombos)){
+  for(i in 1:50){
+  myDF <- dataCreate(mean1 = comboData[j,1], mean2= comboData[j,2], mean3 = comboData[j,3])
+  ANOsum <- ANOfun()
+  # create a vector that holds the p-value from the ANOVA summary
+  ANOfunpval <- ANOsum[[1]][["Pr(>F)"]][1]
+  results2[i]=ANOfunpval
+  product[i]=(sum(results2<=0.05))
+  # add in mean values for each elevation into the matrix
+  myMat[j,1]=comboData[j,1]
+  myMat[j,2]=comboData[j,2]
+  myMat[j,3]=comboData[j,3]
+  myMat[j,4]=product[i]
+  return(myMat)
+}
+}
+}
+COMBOfun()
+############################################################
+```
