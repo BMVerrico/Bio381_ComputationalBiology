@@ -150,7 +150,7 @@ geom_text(aes(3,4.25, label = "Mid Garden"), size=4) +
   geom_text(aes(3,6, label = "High Garden"), size=4) +
   scale_colour_gradient(low = "red",high = "blue") +
   guides(colour=FALSE)
-
+print(tdplot)
 ```
 
 Try plotting everything together.
