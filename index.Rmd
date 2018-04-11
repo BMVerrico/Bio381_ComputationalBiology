@@ -100,3 +100,11 @@ Homework 8 = Homework 7
 ------
 <div id='id-section11'/>
 ### Week 11: 
+
+[Homework 11] NEED TO DO!
+
+------
+<div id='id-section11'/>
+### Week 11: 
+
+[Homework 12 ggplot](Homework12.html)

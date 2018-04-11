@@ -1,0 +1,157 @@
+---
+title: "Homework 12"
+author: "Brittany Verrico"
+date: "4/11/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Generate a fake data set to make figures for local adaptation hypotheses. The reaction norm will be continuous because I am utilizing the transfer distance approach. 
+
+```{}
+Transfer distance = (Climate at collection site) - (Climate at planting site)
+```
+
+If populations are locally adapted, then fitness is highest when the transfer distance is 0. That is, the home and planting site climatic conditions (based on a particular variable) are the same/similar. Fitness should decrease as transfer distance increases. 
+
+I have 3 common gardens spaced along an elevational gradient, so I will demonstrate what I expect for local adaptation at each garden. I will use mean annual temperature as my climate variable, and I have already figured out that my transfer distances fall between 0 and 4 degrees C. Will not go into all the details here. I would like to demonstrate what no local adaptation looks like in each figure. 
+
+I would also like to plot the range of transfer distances for collections of trees collected at two scales. Again, not going into the details. 
+
+Load in the required packages
+```{r}
+library(ggplot2)
+library(patchwork)
+library(cowplot)
+```
+
+Generate a fake, but realistic data set. 
+
+Low elevation
+```{r}
+lowSeq=seq(0,4,.01)
+# create a normal distribution, with a mean of 0
+lowdensities<-dnorm(lowSeq, mean=0,sd=0.6)
+# but only keep those value greater than 0 because I will not have negative td in my experiment
+lowdensities2=lowdensities[lowdensities>=0]
+BroadScale=rep("Broad-scale", length(lowdensities2))
+# put everything in a data frame
+lowMat=data.frame(x=lowSeq, y=lowdensities2, scale=BroadScale)
+```
+
+No local adaptation at low elevation
+```{r}
+# create a fake y value
+noLALow=rep(0.2,length(lowdensities2))
+FineScale=rep("Fine-scale", length(lowdensities2))
+noLAmat=data.frame(x=lowSeq, y=noLALow, scale=FineScale)
+
+# create combined matrix for plotting
+plot_matLow=rbind(lowMat, noLAmat)
+```
+
+```{r}
+# plot local adaptation of low elevation
+Low=ggplot(data= plot_matLow, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() + 
+  ylab("Fitness") +
+  xlab("")+ 
+  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
+        axis.title.y = element_text(size=12, face="bold"),
+        axis.text.x = element_text(face="bold",size=11), legend.position = "top") + scale_color_manual(values=c('red','black'))
+print(Low)
+```
+
+Mid elevation
+```{r}
+mid<-seq(-2,2,.01)
+middensities<-dnorm(mid, mean=0,sd=0.3)
+BroadScale=rep("Broad-scale", length(lowdensities2))
+midMat=data.frame(x=mid, y=middensities, scale=BroadScale)
+```
+
+No local adaptation at mid elevation
+```{r}
+# create a fake y value
+noLAmid=rep(0.2,length(lowdensities2))
+FineScale=rep("Fine-scale", length(middensities))
+noLAmatMid=data.frame(x=mid, y=noLAmid, scale=FineScale)
+
+# create combined matrix for plotting
+plot_matMid=rbind(midMat, noLAmatMid)
+```
+
+```{r}
+# plot local adaptation of low elevation
+Mid=ggplot(data= plot_matMid, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() + 
+  ylab("Fitness") +
+  xlab("")+ 
+  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
+        axis.title.y = element_text(size=12, face="bold"),
+        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black'))
+print(Mid)
+```
+
+High elevation
+```{r}
+high<-seq(-4,0,.01)
+highdensities<-dnorm(high, mean=0,sd=0.3)
+highdensities2=highdensities[highdensities>=0]
+BroadScale=rep("Broad-scale", length(highdensities2))
+highMat=data.frame(x=high, y=highdensities2, scale=BroadScale)
+```
+
+No local adaptation at high elevation
+```{r}
+# create a fake y value
+noLAhigh=rep(0.2,length(highdensities2))
+FineScale=rep("Fine-scale", length(highdensities2))
+noLAmatHigh=data.frame(x=high, y=noLAhigh, scale=FineScale)
+
+# create combined matrix for plotting
+plot_mat=rbind(highMat, noLAmatHigh)
+```
+
+```{r}
+# plot local adaptation of low elevation
+High=ggplot(data= plot_mat, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() +
+  ylab("Fitness") +
+  xlab("Transfer Distance (°C)")+ 
+  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
+        axis.title.y = element_text(size=12, face="bold"),
+        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black'))
+print(High)
+```
+
+
+If patchwork does not work, then this can be an alternative. 
+```{r}
+plot_grid(Low, Mid, High, labels = c("Low", "Mid", "High"), align = "v", nrow=3) + theme(plot.margin = unit(c(0,6,0,6), "cm"))
+#ggsave(filename = "/Volumes/kellrlab/brittany/dissertation/Grants/Marvin/LocalAdaptationHo.pdf", plot=plotMe, device = "pdf")
+```
+
+
+Plot transfer distances between scales.
+```{r}
+td=read.csv("/Volumes/kellrlab/datashare/Spruce/MansfieldCG/CommonGardenPlans/TDplot.csv", header=TRUE)
+head(td)
+
+tdplot=ggplot(data=td, aes(x=td, y=garden)) + geom_point(aes(shape =scale), size = 2) + geom_point(aes(color =tally)) +
+  scale_x_continuous(breaks=seq(from=-4, to=4, by=1))+ theme_bw() +
+  theme(panel.grid = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(face="bold"), axis.title.x = element_text(face="bold"), legend.position = "top") + labs(x="Transfer Distance (°C)")+ geom_hline(yintercept = 2.5) + 
+   geom_hline(yintercept = 4.5) +
+geom_text(aes(3,2.25, label = "Low Garden"), size=2) +
+geom_text(aes(3,4.25, label = "Mid Garden"), size=2) +
+  geom_text(aes(3,6, label = "High Garden"), size=2) +
+  scale_colour_gradient(low = "red",high = "blue") +
+  guides(colour=FALSE)
+
+```
+
+Try plotting everything together.
+
+```{r}
+Low + Mid + High + plot_layout(ncol=1) | tdplot
+```
