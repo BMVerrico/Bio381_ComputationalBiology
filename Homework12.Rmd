@@ -57,10 +57,11 @@ plot_matLow=rbind(lowMat, noLAmat)
 # plot local adaptation of low elevation
 Low=ggplot(data= plot_matLow, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() + 
   ylab("Fitness") +
-  xlab("")+ 
+  xlab("Transfer Distance (°C)")+ 
   theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
         axis.title.y = element_text(size=12, face="bold"),
-        axis.text.x = element_text(face="bold",size=11), legend.position = "top") + scale_color_manual(values=c('red','black'))
+        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black')) +
+  geom_text(aes(3,1, label = "Low Garden"), size=4)
 print(Low)
 ```
 
@@ -90,7 +91,8 @@ Mid=ggplot(data= plot_matMid, mapping = aes(x=x, y=y, group=factor(scale))) + ge
   xlab("")+ 
   theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
         axis.title.y = element_text(size=12, face="bold"),
-        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black'))
+        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black')) +
+  geom_text(aes(1,2.25, label = "Mid Garden"), size=4)
 print(Mid)
 ```
 
@@ -118,10 +120,11 @@ plot_mat=rbind(highMat, noLAmatHigh)
 # plot local adaptation of low elevation
 High=ggplot(data= plot_mat, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() +
   ylab("Fitness") +
-  xlab("Transfer Distance (°C)")+ 
+  xlab("")+ 
   theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
         axis.title.y = element_text(size=12, face="bold"),
-        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black'))
+        axis.text.x = element_text(face="bold",size=11), legend.position = "top") + scale_color_manual(values=c('red','black')) +
+  geom_text(aes(-1,2.25, label = "High Garden"), size=4)
 print(High)
 ```
 
@@ -142,16 +145,16 @@ tdplot=ggplot(data=td, aes(x=td, y=garden)) + geom_point(aes(shape =scale), size
   scale_x_continuous(breaks=seq(from=-4, to=4, by=1))+ theme_bw() +
   theme(panel.grid = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(face="bold"), axis.title.x = element_text(face="bold"), legend.position = "top") + labs(x="Transfer Distance (°C)")+ geom_hline(yintercept = 2.5) + 
    geom_hline(yintercept = 4.5) +
-geom_text(aes(3,2.25, label = "Low Garden"), size=2) +
-geom_text(aes(3,4.25, label = "Mid Garden"), size=2) +
-  geom_text(aes(3,6, label = "High Garden"), size=2) +
+geom_text(aes(3,2.25, label = "Low Garden"), size=4) +
+geom_text(aes(3,4.25, label = "Mid Garden"), size=4) +
+  geom_text(aes(3,6, label = "High Garden"), size=4) +
   scale_colour_gradient(low = "red",high = "blue") +
   guides(colour=FALSE)
 
 ```
 
 Try plotting everything together.
-
+This could look better, but I think it looks okay for now.
 ```{r}
-Low + Mid + High + plot_layout(ncol=1) | tdplot
+High + Mid + Low + plot_layout(ncol=1) | tdplot
 ```
