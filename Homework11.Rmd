@@ -1,0 +1,194 @@
+---
+title: "Homework 11"
+author: "BMV"
+date: "4/12/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Question 1:**
+
+I have 1211 red spruce individuals sampled across the elevational gradient on Camels Hump Mountain. For each individudal, I have the diameter at breast height (DBH) (lower limit of 2cm). I would like to use this measurement to estimate the basal area for each tree. I am using the formula below that converts DBH measured in cm to basal area in m^2.
+
+Tree Basal Area (TBA) = (DBH/200)^2 x 3.142 m2.
+
+Where DBH is the Diameter at Breast height (cm) and 3.142 is π
+
+Call in the data for global variables. For this data set, I do not have a parameter that can vary.
+```{r}
+data=read.csv("/Volumes/Macintosh HD/Users/Brittany/Documents/UVM/red spruce/CHSurvey1965_2015/CH_data_1965_2015.csv", header=TRUE)
+
+picea=subset(data, data$SPECIES==4)
+
+picea=picea$DIAM
+head(picea)
+```
+
+```{r}
+##################################################
+# function: TreeBasalArea
+# converts the diameter in cm to the basal area in m2
+# input: DBH=vector of diameter of breast heights for picea
+# output: TBA is a vector of basal area estimates in meters sqaured
+#------------------------------------------------- 
+TreeBasalArea=function(DBH=picea){
+  TBA=(DBH/200)^2 * 3.142
+return(TBA)
+}
+
+head(TreeBasalArea())
+
+##################################################
+# function: BasalAreaPlot
+# plot basal area 
+# input: DBH=vector of diameter of breast heights for picea
+# output: smoothed curve with parameters in graph
+#------------------------------------------------- 
+BasalAreaPlot <- function(DBH=picea) {
+plot(x=DBH,y=TreeBasalArea(DBH),xlab="Diameter at  breast height (DBH)",ylab="Basal area")
+      return()
+}
+BasalAreaPlot()
+```
+
+**Question 2:**
+
+Using a different data set that contains estimates of timing of bud set for 42 trees located along elevational gradient. Looking at relationship between bud set ~ elevation. 
+
+Preliminaries
+```{r}
+library("ggplot2")
+library("TeachingDemos")
+char2seed("Cruel April")
+```
+
+Call in data to global environment.
+```{r}
+budset=read.csv("/Volumes/kellrlab/datashare/Spruce/Collection Data/Seeds/GerminationRound1/budset/ele_mean_budset.csv", header=TRUE)
+
+budset=budset[,c(2,4)]
+head(budset)
+```
+
+Functions
+```{r}
+
+###################################
+# Function: readData
+# read in or generate data frame
+# input: file name (or nothing for demo)
+# output: 3-column data frame of observed data (ID, x, y)
+#---------------------------------
+readData <- function(z=NULL) {
+  if (is.null(z)) {
+    xVar <- budset$Elevation
+    yVar <- budset$Julian_Day
+    dF <- data.frame(ID=seq_along(xVar),xVar,yVar)
+  }
+  return(dF)
+}
+readData()
+
+###################################
+# Function: getMetric
+# calculate metric for randomization test
+# input: 3-column data frame for regression
+# output: regression slope
+#---------------------------------
+getMetric <- function(z=NULL) {
+  if (is.null(z)) {
+    xVar <- budset$Elevation
+    yVar <- budset$Julian_Day
+    z <- data.frame(ID=seq_along(xVar),xVar,yVar)
+  }
+  . <- lm(z[,3]~z[,2])
+  . <- summary(.)
+  . <- .$coefficients[2,1]
+  slope <- .
+  return(slope)
+}
+getMetric()
+
+###################################
+# Function: shuffleData
+# randomize data for regression analysis
+# input: 3-column data frame (ID, xVar, yVar)
+# output: 3-column data frame (ID, xVar, yVar) 
+#---------------------------------
+shuffleData <- function(z=NULL) {
+  if (is.null(z)) {
+    xVar <- budset$Elevation
+    yVar <- budset$Julian_Day
+    z <- data.frame(ID=seq_along(xVar),xVar,yVar)
+  }
+  z[,3] <- sample(z[,3])
+  return(z)
+}
+shuffleData()
+
+###################################
+# Function: getPVal
+# calculate p value for observed, simulated data
+# input: list of observed metric and vector of simulated metric
+# output: lower, upper tail probability vector
+#---------------------------------
+getPVal <- function(z=NULL) {
+  if (is.null(z)) {
+    z <- list(xObs=runif(1),xSim=runif(1000))
+  }
+  pLower <- mean(z[[2]] <= z[[1]])
+  pUpper <- mean(z[[2]] >= z[[1]])
+  return(c(pL=pLower,pU=pUpper))
+}
+getPVal()
+
+###################################
+# Function: plotRanTest
+# ggplot graph
+# input: list of observed metric and vector of simulated metric
+# output: ggplot graph
+#---------------------------------
+plotRanTest <- function(z=NULL) {
+  if (is.null(z)) {
+    z <- list(xObs=runif(1),xSim=runif(1000))
+  }
+  dF <- data.frame(ID=seq_along(z[[2]]),simX=z[[2]])
+  p1 <- ggplot(data=dF, mapping = aes(x=simX))
+  p1 + geom_histogram(mapping = aes(fill=I("lightsalmon"),color=I("black"))) + geom_vline(aes(xintercept=z[[1]],col="blue"))
+}
+plotRanTest()
+```
+
+Main body of code
+```{r}
+nSim <- 1000 # number of simulations
+XSim <- rep(NA, nSim) # will hold simulated slopes
+
+dF <- readData()
+Xobs <- getMetric(dF)
+
+for (i in seq_len(nSim)) {
+  XSim[i] <- getMetric(shuffleData(dF))
+}
+
+slopes <- list(Xobs,XSim)
+getPVal(slopes)
+plotRanTest(slopes)
+```
+
+**Question 3**
+
+The p-values are nearly the same in both tests. I would expect a slight difference given the randomization.  
+
+```{r}
+lmBudset <- lm(budset$Julian_Day ~ budset$Elevation, data = readData())
+summary(lmBudset)
+
+
+lmBudsetShuffle <- lm(budset$Julian_Day ~ budset$Elevation, data = shuffleData())
+summary(lmBudsetShuffle)
+```
+

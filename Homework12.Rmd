@@ -58,9 +58,9 @@ plot_matLow=rbind(lowMat, noLAmat)
 Low=ggplot(data= plot_matLow, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() + 
   ylab("Fitness") +
   xlab("Transfer Distance (°C)")+ 
-  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
-        axis.title.y = element_text(size=12, face="bold"),
-        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black')) +
+  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12),
+        axis.title.y = element_text(size=12),
+        axis.text.x = element_text(size=12), legend.position = "none") + scale_color_manual(values=c('red','black')) +
   geom_text(aes(3,1, label = "Low Garden"), size=4)
 print(Low)
 ```
@@ -89,9 +89,9 @@ plot_matMid=rbind(midMat, noLAmatMid)
 Mid=ggplot(data= plot_matMid, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() + 
   ylab("Fitness") +
   xlab("")+ 
-  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
-        axis.title.y = element_text(size=12, face="bold"),
-        axis.text.x = element_text(face="bold",size=11), legend.position = "none") + scale_color_manual(values=c('red','black')) +
+  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12),
+        axis.title.y = element_text(size=12,),
+        axis.text.x = element_text(size=12), legend.position = "none") + scale_color_manual(values=c('red','black')) +
   geom_text(aes(1,2.25, label = "Mid Garden"), size=4)
 print(Mid)
 ```
@@ -121,9 +121,9 @@ plot_mat=rbind(highMat, noLAmatHigh)
 High=ggplot(data= plot_mat, mapping = aes(x=x, y=y, group=factor(scale))) + geom_line(aes(color=scale), size=1) + theme_classic() +
   ylab("Fitness") +
   xlab("")+ 
-  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12, face="bold"),
-        axis.title.y = element_text(size=12, face="bold"),
-        axis.text.x = element_text(face="bold",size=11), legend.position = "top") + scale_color_manual(values=c('red','black')) +
+  theme(axis.text.y = element_blank(), axis.ticks = element_blank(), axis.title.x = element_text(size=12),
+        axis.title.y = element_text(size=12),
+        axis.text.x = element_text(size=12), legend.position = "top") + scale_color_manual(values=c('red','black')) +
   geom_text(aes(-1,2.25, label = "High Garden"), size=4)
 print(High)
 ```
@@ -143,7 +143,7 @@ head(td)
 
 tdplot=ggplot(data=td, aes(x=td, y=garden)) + geom_point(aes(shape =scale), size = 2) + geom_point(aes(color =tally)) +
   scale_x_continuous(breaks=seq(from=-4, to=4, by=1))+ theme_bw() +
-  theme(panel.grid = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(face="bold"), axis.title.x = element_text(face="bold"), legend.position = "top") + labs(x="Transfer Distance (°C)")+ geom_hline(yintercept = 2.5) + 
+  theme(panel.grid = element_blank(), axis.text.y = element_blank(), axis.title.y = element_blank(), axis.text.x = element_text(size=12), axis.title.x = element_text(size=12), legend.position = "top") + labs(x="Transfer Distance (°C)")+ geom_hline(yintercept = 2.5) + 
    geom_hline(yintercept = 4.5) +
 geom_text(aes(3,2.25, label = "Low Garden"), size=4) +
 geom_text(aes(3,4.25, label = "Mid Garden"), size=4) +

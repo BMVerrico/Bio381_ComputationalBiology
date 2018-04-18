@@ -22,17 +22,19 @@ output:
 * [Class Notebook](https://github.com/BMVerrico/Bio381_ComputationalBiology/blob/master/LabNotebook.Rmd)
 
 ## Table of Contents: Homework Assignments
-* [Homework 1: ](#id-section1)
-* [Homework 2: ](#id-section2)
-* [Homework 3: ](#id-section3)
-* [Homework 4: ](#id-section4)
-* [Homework 5: ](#id-section5)
-* [Homework 6: ](#id-section6) 
-* [Homework 7: ](#id-section7)
-* [Homework 8: ](#id-section8)
-* [Homework 9: ](#id-section9)
-* [Homework 10: ](#id-section10)
-* [Homework 11: ](#id-section11)
+* [Homework 1 ](#id-section1)
+* [Homework 2 ](#id-section2)
+* [Homework 3 ](#id-section3)
+* [Homework 4 ](#id-section4)
+* [Homework 5 ](#id-section5)
+* [Homework 6 ](#id-section6) 
+* [Homework 7 ](#id-section7)
+* [Homework 8 ](#id-section8)
+* [Homework 9 ](#id-section9)
+* [Homework 10 ](#id-section10)
+* [Homework 11 ](#id-section11)
+* [Homework 12 ](#id-section12)
+
 
 ------
 <div id='id-section1'/>
@@ -46,38 +48,38 @@ output:
 <div id='id-section2'/>
 ### Week 2:    
 
-[Path analyses](pathAnalysis1.html)
+[Homework 2: Path analyses](pathAnalysis1.html)
 
 ------
 <div id='id-section3'/>
 ### Week 3: 
 
-[Beamer Slides](Homework3.pdf)
+[Homework 3: Beamer Slides](Homework3.pdf)
 
 ------
 <div id='id-section4'/>
 ### Week 4:    
 
-[Homework 4 R code](Homework4.html)
+[Homework 4: R code](Homework4.html)
 
 ------
 <div id='id-section5'/>   
 ### Week 5: 
    
-[Homework 5 Regular Expressions](Homework5.html)
+[Homework 5: Regular Expressions](Homework5.html)
 
 ------
 <div id='id-section6'/>   
 
 ### Week 6: 
 
-[Homework 6 Probability Distributions](Homework6.html)
+[Homework 6: Probability Distributions](Homework6.html)
 
 ------
 <div id='id-section7'/>
 ### Week 7: 
 
-[Homework 7 Creating fake data to test hypotheses](Homework7.html)
+[Homework 7: Creating fake data to test hypotheses](Homework7.html)
 
 ------
 <div id='id-section8'/>
@@ -89,22 +91,22 @@ Homework 8 = Homework 7
 <div id='id-section9'/>
 ### Week 9: 
 
-[Homework 9 Structured Programming](Homework9.html)
+[Homework 9: Structured Programming](Homework9.html)
 
 ------
 <div id='id-section10'/>
 ### Week 10:    
 
-[Homework 10 Batch Processing](Homework10.html)
+[Homework 10: Batch Processing](Homework10.html)
 
 ------
 <div id='id-section11'/>
 ### Week 11: 
 
-[Homework 11] NEED TO DO!
+[Homework 11: Function Plotting and Randomization](Homework11.html)
 
 ------
 <div id='id-section11'/>
-### Week 11: 
+### Week 12: 
 
-[Homework 12 ggplot](Homework12.html)
+[Homework 12: ggplot](Homework12.html)

@@ -135,5 +135,11 @@ m9 + facet_grid(. ~ class)
 m10= ggplot (data=mpg, mapping=aes(x=displ, y=cty)) + 
   geom_boxplot()
 print(m10)
-m9 + facet_grid(. ~ class)
+m10 + facet_grid(. ~ class)
+
+m10= ggplot (data=mpg, mapping=aes(x=displ, y=cty, group=drv, fill=drv)) + 
+  geom_boxplot()
+print(m10)
+m10 + facet_grid(. ~ class)
+
 
