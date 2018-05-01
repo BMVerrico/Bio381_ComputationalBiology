@@ -9,8 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-###**DPYLR PACKAGE**
-
 * R-package to transform and summarize tabular data with rows and columns. Great for exploratory data anlyses and data manipulation.
 * Be careful while loading `plyr` and `dplyr` at the same time!
 * Requires each variable to have its own column.
