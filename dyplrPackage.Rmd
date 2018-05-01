@@ -1,0 +1,174 @@
+---
+title: "dplyr package"
+author: "BMV"
+date: "05/01/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+###**DYPLR PACKAGE**
+
+* R-package to transform and summarize tabular data with rows and columns. Great for exploratory data anlyses and data manipulation.
+* Be careful while loading `plyr` and `dplyr` at the same time!
+* Requires each variable to have its own column.
+* Requires each observation, or case, to have its own row.
+* Uses the piping notation `%>%`.
+    * This operator allows you to pipe the output from one function to the input of another function.
+
+**Installation**
+```{r}
+# The easiest way to get dplyr is to install the whole tidyverse:
+#install.packages("tidyverse")
+
+# Alternatively, install just dplyr:
+#install.packages("dplyr")
+
+# Or the development version from GitHub:
+# install.packages("devtools")
+#devtools::install_github("tidyverse/dplyr")
+```
+
+**Preliminaries**
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(TeachingDemos)
+char2seed("Aunt Marge")
+```
+
+**Call in the data**
+```{r}
+HarryPotter=read.csv("/Volumes/Macintosh HD/Users/Brittany/Documents/ComputationalBiology/Bio381_ComputationalBiology/HarryPotter.csv", sep=",")
+
+# take a quick look at the structure 
+dplyr::glimpse(HarryPotter)
+```
+
+**Subset observations (rows)**
+
+1. `Filter` function: return rows that satisfy a condition/ conditions
+```{r, message=FALSE, warning=FALSE}
+# Filter the rows for the Weasley family
+output=HarryPotter %>%
+  filter(Last.Name == "Weasley")
+print(output)
+
+# Filter the rows for the Weasley family and those family
+# members born after 1980
+HarryPotter %>%
+  filter(Last.Name == "Weasley", BirthYear >= 1980)
+```
+
+2. Randomly sample/select rows with `sample_n` and `sample_frac`.
+```{r}
+# Randomly sample 10% of the rows in the entire dataset
+sample_frac(HarryPotter, size=0.1, replace=FALSE)
+
+# Filter the dataset based on Blood_Status and Sex then randomly select three people
+output=HarryPotter %>%
+  filter(Blood_Status == "HalfBlood" & Sex == "Female")
+print(output)
+
+sample_n(output, size=2, replace=FALSE)
+```
+
+3. Re-order rows with `arrange`.
+```{r}
+# Filter. Arrange by last name then first name
+output=HarryPotter %>%
+  filter(Blood_Status == "PureBlood" & Sex == "Male") %>%
+  arrange(Last.Name, First.Name)
+print(output)
+```
+
+**Subset variables (columns)**
+
+1. `Select` function: return columns based on a name
+```{r}
+# Select specific columns 
+output=HarryPotter %>%
+  select(First.Name, House)
+print(output)
+
+# Select columns but pipe output to "head" function
+HarryPotter %>%
+  select(First.Name, House) %>%
+  head
+
+# Select all columns except a specific column: use the “-“
+HarryPotter %>%
+  select(-Sex) %>%
+  head
+
+# Select a range of columns by name: use the “:”
+HarryPotter %>%
+  select(Last.Name:House) %>%
+  head
+```
+
+2. `select` helper functions.
+```{r}
+# Select columns sharing similar names with "ends with"
+head(HarryPotter)
+
+HarryPotter %>%
+  select(ends_with("Name")) %>%
+  head
+
+# Select columns whose name matches a regular expression
+HarryPotter %>%
+  select(matches("\\.")) %>%
+  head
+
+HarryPotter %>%
+  select(matches("\\_")) %>%
+  head
+```
+
+3. Create a new variable or column with `mutate` and `transmute`
+```{r}
+# Add a new column called "Name" with the first and last name combined
+# Add a new column called "Age"-- assuming all alive. unfortunately, we know this isn't true :(
+
+output= HarryPotter %>%
+  mutate(Name= paste(HarryPotter$First.Name,"_", HarryPotter$Last.Name), 
+                     Age=(2018-BirthYear))
+head(output)
+
+# Add a new column called "Name" with the first and last name combined
+# replacing everything else
+names= HarryPotter %>%
+  transmute(Name= paste(HarryPotter$First.Name, "_", HarryPotter$Last.Name))
+head(names)
+```
+
+**Summarize the data**
+
+The `summarise` function will create summary statistics for a given column in the data frame.
+
+The `group_by` function will group/ split the data.
+
+These functions allow for the concept of "split-apply-combine".
+Specifically, we split the data into groups, apply a function/ functions, and combine the data into a summary table.
+
+```{r}
+# Split the data by house names, then take the average height of people in those houses, find the maximum height, and provide the total number of observations of people providing data/house.
+
+HarryPotter %>%
+  group_by(House) %>%
+  summarise(avg_height= mean(Height),
+      tallest=max(Height),
+      total_people=n())
+```
+
+**Combine row and column functions**
+
+```{r}
+HarryPotter %>% 
+  select(Sex, Blood_Status, Height) %>%
+    filter(Sex=="Male", Blood_Status=="PureBlood") %>% 
+    filter(Height > 67, Height < 72) %>% 
+    arrange(desc(Height))
+```

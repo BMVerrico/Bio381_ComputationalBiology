@@ -21,6 +21,15 @@ output:
 * [Github website templates](https://github.com/jekyll/jekyll/wiki/Themes) 
 * [Class Notebook](https://github.com/BMVerrico/Bio381_ComputationalBiology/blob/master/LabNotebook.Rmd)
 
+## Project information
+
+[Data file](HarryPotter.csv)
+
+[Rmd](dplyrPackage.Rmd)
+
+[HTML](dplyrPackage.html)
+
+
 ## Table of Contents: Homework Assignments
 * [Homework 1 ](#id-section1)
 * [Homework 2 ](#id-section2)
