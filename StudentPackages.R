@@ -712,3 +712,422 @@ mod
 par(mfrow = c(1, 2))
 plot(mod, y = "i.num", main = "Prevalence")
 plot(mod, y = "se.flow",  main = "Incidence")
+
+##############################################################
+library(stringr)
+
+# I. Define Functions --------------------------------------------
+##################################################################
+# I.1
+# pkg.info() 
+# returns list of info on loaded non-base R packages
+pkg.info <- function() sessionInfo()$otherPkgs
+pkg.info()
+
+##################################################################
+# I.2
+# pkg.names() 
+# returns character vector of load non-base R packages
+pkg.names <- function() names(sessionInfo()$otherPkgs)
+pkg.names()
+
+##################################################################
+# I.3
+# require.pkgs()
+# checks to see if package is installed, then installs and loads 
+require.pkgs <- function(p=c('vector of','packages')){
+  ifelse(!is.element(p,installed.packages()[,1]),
+         sapply(p, install.packages, character.only=T),
+         sapply(p, require, character.only=T))
+}
+require.pkgs()
+
+##################################################################
+# I.4
+# detach.pkgs()
+# detaches all non-base R packages
+detach.pkgs <- function(){
+  . <- menu(c("Yes", "No"),title="Do you want to detach all packages?")
+  if(.!=1){stop('function aborted')}else{
+    lapply(paste('package:',names(sessionInfo()$otherPkgs),sep=""),detach,character.only=TRUE,unload=TRUE)
+  }
+}
+detach.pkgs()
+######################################################################
+# I.5
+# find.links()
+# searches for hyperlinks (http...) in character strings
+find.links <- function(x){
+  require('stringr')
+  require('magrittr')
+  str_extract_all(x,"http[^[:space:]]*") %>% unlist()
+}
+
+##################################################################
+# I.6
+# file.remove.warning
+# insert warning requiring user feedback before deleting a vector of files
+file.remove.warning <- function(x=NULL){
+  xfiles <- paste(x,collapse=', ')
+  warning <- paste("WARNING: Do you want to delete",xfiles,"from the following path? \n",getwd())
+  . <- menu(c("Yes", "No"),title=warning)
+  if(.!=1){stop('function aborted')}else{
+    cat("deleting files...")
+    file.remove(x)
+  }
+}
+file.remove.warning()
+
+##################################################################
+# I.7
+# parent.dir()'
+# returns the parent of working directory
+parent.dir <- function(){
+  require('stringr')
+  require('magrittr')
+  x <- getwd()
+  # get names of subdirectories
+  x <- str_split(x,"/") %>% unlist()
+  # get path minus working directory folder 
+  x <- str_c(x[-length(x)],collapse='/')
+  return(x)
+}
+parent.dir()
+
+
+set.seed(1)
+pkg.names()
+require.pkgs(c('stringr', 'magrittr', 'openxlsx'))
+
+# start by getting some strings to work with
+s1=pkg.names()
+s1
+
+# capture.output() which returns a vector of console print lines
+s2=capture.output(pkg.info())
+s2
+
+# random sample of s2
+s3= sample(s2, 5, replace=FALSE)
+s3
+
+#returns the number of chars of a vector of strings
+str_length(3)
+str_length
+
+# wrap text after a certain number of chars
+str_wrap(s3,1)
+str_wrap(s1,1) # doesn't cut off words
+
+# stringer detect--returns TRUE if argument is in element
+str_detect(s3, "a")
+
+# str_replace(s3, "a", ....)
+
+#str_split--split on a char
+str_split(s3, " ")
+
+#str_sub subsets a line or single chr string on a start and end pos
+str_sub(s3, 5, -8)
+str_sub(s1, 1,3)
+
+# str_concatanate
+# similar but more complex
+
+str_c(s1, s3, sep=" %>%")
+
+# string commands works with pipes
+str_trim(s3) %>%
+  str_split (" ") %>%
+  unlist() %>%
+  str_to_upper()
+
+# REGULAR EXPRESSIONS
+str_extract_all(s2, "http[^[:space:]]*") %>%
+  unlist()
+mylinks=find.links(s2)
+
+# batch processing and file manipulation
+# create a temp folder
+tmp=paste0('tmp', Sys.Date())
+dir.create(tmp)
+setwd(tmp)
+
+# create files
+f=paste0(rep("file", 10), 1:10, ".tmp")
+for(i in seq_along(f)) readr::write_file("empty", f[i])
+
+f= paste0('tmp', 1:10, '.xlsx')
+mydata=c(str_c("x ", s1), str_c(" 1, ", mylinks,", data"))
+for(i in seq_along(f)) write.xlsx(mydata, f[i], overwrite=TRUE)
+
+#####################################################
+
+library(lubridate)
+# tool to manipulate, extract data for date and times
+
+# use base R
+data= as.POSIXct("02-05-2018", format= " %d - %m - %Y", tz="UTC")
+
+# use lubridate
+date= dmy("02-05-2018", tz="UTC")
+
+# use base R
+
+date=as.POSIXct(format(date, "%Y-2-%d", tz= "UTC"))
+
+# use lubridate
+month(date)=3
+
+# find out what day it was 29 days ago
+date=dmy("02-05-2018", tz="America/New_York")
+date=date - days(29)
+
+dmy(c("31.12.2010", "01.01.2011"))
+dmy(180502)
+
+# find the duration  btw 2 days
+span= interval(ymd("2009-01-01"), ymd("2009-08-01"))
+as.duration(span)
+
+# x days from assigned date
+diff=make_difftime(days=150)
+as.interval(diff, ymd("1991-03-19"))
+
+# month and day can be continuous--does not need to stop at 12 or 30
+update(date, year=2010, month=13, day=3)
+
+update(date, minute=10, second=3)
+
+# determine what day of week
+x=as.Date("2009-09-02")
+wday(x)
+yday(x)
+wday(ymd(180502), label=TRUE, abbr=TRUE)
+wday(ymd(180502), + days(-2:3), label=TRUE, abbr=TRUE)
+
+duration(1.5, "days")
+duration(second=2, minutes=3.5, hour=2, day=6, week=1)
+duration("2d, 2H, 2M, 2S")
+
+leap_year(1995)
+leap_year(2008)
+
+# creaate objects of a class date
+make_datetime(year=1999, month=12, day=22, hour=c(10,11))
+
+x=seq.Date(as.Date("2009-08-02"), by="year", length.out = 2)
+print(x)
+
+pretty_dates(x, 12)
+
+#######################################################
+library(timevis)
+#Create a simple data frame with events from this class
+
+#Every item must have a `content` and a `start` variable
+#id is optional but recommended
+#start has a specific formatting of year - 2-digit month - 2-digit date, if time use hour : minute : second using 24-hour clock
+
+simpleTL <- data.frame(
+  id = 1:4,   # not required but useful
+  #include 2 lectures, a homework, and the first day of presentations
+  content = c("Randomization Tests", "ggPlots",
+              "Homework 12", "Presentations 1"), 
+  start = c("2018-04-03", "2018-04-05", "2018-04-11", 
+            "2018-04-24 14:50:00"), 
+  # single point in time? Use NA 
+  end = c(NA, "2018-04-17",NA,NA)
+)
+
+#print data frame
+simpleTL 
+
+#create first timeline
+timevis(simpleTL)
+
+##Building onto a timeline: Groups, add items, hyperlinks, options, and styles
+
+#-----------------------------------------------
+#Add groups
+
+#Create a data frame to define your groups
+#Group id = used in data frame with timeline items
+#Group content = what will show on your timeline
+
+groups <- data.frame( 
+  id = c("lec", "hw", "pt"), # what goes into dataframe
+  content = c("Lecture", "Homework", "Presentation") # what is shown on timeline
+)
+
+#Bind groups to data frame
+groupTL <- cbind(simpleTL,group=c(rep("lec",2),"hw","pt"))
+
+#Add groups to final timeline
+timevis(groupTL,groups=groups)
+
+#Add item to timeline
+#html is supported
+#Use "piping notation" to add onto the next command like with leaflet package!
+
+timevis(groupTL,groups=groups)  %>%
+  addItem(list(id=5, content="<b>Presentations 2</b>", start="2018-04-25", group="pt")) 
+
+#Add a hyperlink to a timeline item
+#Look at structure - variables are factors, need them as characters
+str(groupTL)
+
+#First change content from a factor to a character
+groupTL$content <- as.character(groupTL$content)
+
+#Then call the specific content cell
+groupTL[3,2] <- "<a href='https://gotellilab.github.io/Bio381/Homeworks/Homework12_2018.html'>Homework 12</a>"
+
+# You can re-factorize with the as.factor function or leave as characters
+groupTL$content <- as.factor(groupTL$content)
+timevis(groupTL,groups=groups)
+
+#----------------------------------------------
+#Your timeline has options! 
+#showZoom = TRUE/FALSE
+#Some things are options and must be included as a list
+#Make items editable
+#Timeline automatically resizes to window but can set height or width
+
+timevis(simpleTL, showZoom=FALSE,options = list(editable = TRUE, width="500px",height = "400px"))
+
+#Add some style
+styles <- c("color:white; background-color:black;")
+#Styles associated with items or with groups
+simpleTL <- cbind(simpleTL,style=styles)
+simpleTL
+timevis(simpleTL)
+
+
+##Create a timeline with prepared data
+
+#-------------------------------------
+#Timeline with prepared data
+
+#Read in data
+timedata <- read.csv("timeline_example.csv", header=TRUE,sep=",")
+
+#Create the groups data frame
+groups <- data.frame(
+  id=c("N","SP","NP","LP","TMDL"),
+  content=c("News","State Policy","National Policy","Local Policy","TMDL"),
+  #add style to group
+  style=c("background-color:lightblue;","background-color:plum;","background-color:pink;","background-color:khaki;","background-color:coral;"))
+
+#Assign timeline to a vector
+#shortcut "alt" + "-" <- (Mac "Opt" + "-")
+#orientation of timeline axis
+timevisHAB <- timevis(timedata,groups=groups,options=list(selectable=TRUE,editable=TRUE,verticalScroll=TRUE,horizontalScroll=TRUE,moveable=TRUE,multiselect=TRUE,zoomCtrl=TRUE,maxHeight="500px",orientation="top"))
+timevisHAB
+
+#Select an item by clicking it, and use ctrl+click to or shift+click to select multiple items (when multiselect: true).
+#Move selected items by dragging them.
+#Create a new item by double tapping on an empty space
+#Create a new range item by dragging on an empty space with the ctrl key down.
+#Update an item by double tapping it.
+#Delete a selected item by clicking the delete button on the top right.
+#you can change the editability of each item by adding to it in the data frame editable:false
+
+#How does the timeline look in shiny? 
+#https://dhackenburg.shinyapps.io/shinyHABtimeline/
+
+#app.R has three components:
+#ui: a user interface object
+#server: a server function
+#a call to the shinyApp function
+
+#-------------------------------
+#Preliminaries
+library(shiny)
+library(RColorBrewer)
+library(shinythemes)
+library(ggplot2)
+#------------------------------
+#We are going to use the mpg dataset to create an interactive boxplot that looks at city or highway mpg based on another variable in the dataset
+
+#Load mpg dataset
+d<-mpg
+#str(d)
+
+#First build our user interface
+#controls the layout and appearance of your app
+#FluidPage creates a display that automatically adjusts to the dimensions of your user's browser window
+#You can also choose fixedPage, navbarPage, or fluidRow or Column
+ui <- fluidPage(
+  
+  #choose a shiny theme (united, darkly, cosmo)
+  theme = shinytheme("united"),
+  
+  #give your app a title
+  titlePanel("Miles Per Gallon"),
+  
+  #create a sidebar for inputs
+  sidebarLayout(position = "right",
+                sidebarPanel(
+                  #Give sidebarPanel a name
+                  h3("Choose Your Inputs"),
+                  
+                  #Create widgets for choosing inputs
+                  selectInput("mpgtype","MPG Standard",c("Highway"="hwy","City"="city")),
+                  selectInput("variable","Variable:",c("Manufacturer"="manufacturer","Year"="year","Fuel Type"="fl","Class"="class"))),
+                
+                #Main panel for displaying outputs
+                mainPanel(
+                  h3(textOutput("caption"),align="center"),
+                  plotOutput("mpgPlot")
+                )
+  )
+)
+#server  contains the instructions that your computer needs to build your app
+server <- function(input,output){
+  #A reactive expression uses widget input to return a value and updates value whenever widget changes
+  formulaText <- reactive({
+    if (input$mpgtype=="hwy")
+      paste("hwy~",input$variable)
+    else
+      paste("cty~",input$variable)
+  })
+  #A render expression acts as a function 
+  output$caption <- renderText({formulaText()})
+  output$mpgPlot <- renderPlot({
+    par(mar=c(6,6,0,0))
+    boxplot(as.formula(formulaText()), data=d,las=2,col=brewer.pal(n=8,name="Set2"),pch=19,xlab="",ylab="")
+    mtext(input$variable,side=1,line=5,font=2)
+    mtext(c("(mpg)",input$mpgtype),side=2,line=3:4,font=2)
+  })
+}
+
+
+shinyApp(ui,server)
+
+#########
+
+#devtools::install_github("Leffj/mctoolsr")
+library(mctoolsr)
+
+tax_table_fp=system.file("extdata",
+                         "fruits_veggies_taxa_table_wTax.biom",
+                         package="mctoolsr")
+map_fp=system.file("extdata", "fruits_veggies_metadata.txt",
+                   package="mctoolsr")
+input=load_taxa_table(tab_fp=tax_table_fp,
+                      map_fp=map_fp)
+
+# rarefy the data
+input_rar=single_rarefy(input=input, 
+                        depth=min(colSums(input$data_loaded)))
+names(input_rar)
+head(input_rar$data_loaded)
+head(input_rar$map_loaded)
+head(input_rar$taxonomy_loaded)
+
+# diversity indices
+plot_diversity(input=input_rar,
+               variable="Sample_type",
+               metric="richness")
+
